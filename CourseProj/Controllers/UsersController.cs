@@ -38,6 +38,7 @@ namespace CourseProj.Controllers
 
         public IActionResult UserPage(int userID)
         {
+            if (User.IsInRole("blocked") && users.GetUserIdByName(User.Identity.Name) == userID) return View("BlockedView");
             var tmp = new UserPageViewModel
             {UserID = userID,GetCollections = collections.CollectionsByUserID(userID)};
             if (User.Identity.IsAuthenticated) tmp.CurrentUserID = users.GetUserIdByName(User.Identity.Name);
@@ -55,7 +56,7 @@ namespace CourseProj.Controllers
         public IActionResult TableBlockButton(int[] selectedUsers,bool isMe)
         {
             if(selectedUsers[0]!=-1) foreach (int v in selectedUsers) if (users.GetUser(v).RoleId != 1) users.GetUser(v).Unblocked = false;
-            else foreach (User user in users.AllUsers)user.Unblocked = false;
+            else foreach (User user in users.AllUsers)user.RoleId = 3;
             users.SaveDB();
             if (isMe) return RedirectToAction("Logout", "AccountController");
             else return RedirectToAction("AdminTable");
@@ -63,7 +64,7 @@ namespace CourseProj.Controllers
         public IActionResult TableUnblockButton(int[] selectedUsers)
         {
             if (selectedUsers[0] != -1)  foreach (int v in selectedUsers) users.GetUser(v).Unblocked = true;
-            else foreach (User user in users.AllUsers) user.Unblocked = true;
+            else foreach (User user in users.AllUsers) user.RoleId = 2;
             users.SaveDB();
             return RedirectToAction("AdminTable");
         }
@@ -229,6 +230,7 @@ namespace CourseProj.Controllers
             return View(tmp);
         }
 
+        [Authorize(Roles = "admin,user")]
         [HttpPost]
         public IActionResult ItemDetails(ItemDetailsViewModel model)
         {
@@ -247,6 +249,7 @@ namespace CourseProj.Controllers
             return View("MainPage", tmp);
         }
 
+        [Authorize (Roles="admin,user")]
         public IActionResult LikeCreation(int itemID)
         {
             if (!likes.IsLiked(users.GetUserIdByName(User.Identity.Name), itemID))

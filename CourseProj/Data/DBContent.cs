@@ -26,6 +26,7 @@ namespace CourseProj.Data
         {
             Role adminRole = new Role { ID = 1, Name = "admin" };
             Role userRole = new Role { ID = 2, Name = "user" };
+            Role blockedUserRole = new Role { ID = 3, Name = "blocked" };
             User adminUser = new User { ID = 69, Email = "admin@mail.ru", Password = "123456", RoleId = adminRole.ID, Unblocked = true };
 
             modelBuilder.Entity<Role>().HasData(new Role[] { adminRole, userRole });
