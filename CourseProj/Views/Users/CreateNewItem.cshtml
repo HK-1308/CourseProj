@@ -1,0 +1,209 @@
+﻿@model Item
+
+<div class="container">
+    <h3>New Item</h3>
+    <form asp-action="CreateNewItem" method="post" class="align-self-md-auto">
+
+        <div class="form-group" style="" hidden="hidden">
+            <label asp-for="CollectionID"></label>
+            <div>
+                <input asp-for="CollectionID" value="@Model.CollectionID" />
+            </div>
+        </div>
+
+        <div class="form-group" style="">
+            <label asp-for="Name"></label>
+            <div>
+                <input asp-for="Name" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Tags"></label>
+            <div>
+                <input asp-for="Tags" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            @if (Model.Collection.StringField1_visible || Model.Collection.StringField2_visible || Model.Collection.StringField3_visible)
+            {<h4> Numerical boxes </h4>}
+            @if (Model.Collection.NumericField1_visible)
+            {
+                <div class="form-group">
+                    <label asp-for="Collection.NumericField1_name"></label>
+                    <div>
+                        <input asp-for="NumericField1" />
+                    </div>
+                </div>
+            }
+
+            @if (Model.Collection.NumericField2_visible)
+            {
+                <div class="form-group">
+                    <label asp-for="Collection.NumericField2_name"></label>
+                    <div>
+                        <input asp-for="NumericField2" />
+                    </div>
+                </div>
+            }
+
+            @if (Model.Collection.NumericField3_visible)
+            {
+                <div class="form-group">
+                    <label asp-for="Collection.NumericField3_name"></label>
+                    <div>
+                        <input asp-for="NumericField3" />
+                    </div>
+                </div>
+            }
+
+        </div>
+
+        <div class="form-group">
+            @if (Model.Collection.StringField1_visible || Model.Collection.StringField2_visible || Model.Collection.StringField3_visible)
+            {<h4> String boxes </h4>}
+            @if (Model.Collection.StringField1_visible)
+            {
+                <div class="form-group">
+                    <label asp-for="Collection.StringField1_name"></label>
+                    <div>
+                        <input asp-for="StringField1" />
+                    </div>
+                </div>
+            }
+
+            @if (Model.Collection.StringField2_visible)
+            {
+                <div class="form-group">
+                    <label asp-for="Collection.StringField2_name"></label>
+                    <div>
+                        <input asp-for="StringField2" />
+                    </div>
+                </div>
+            }
+
+            @if (Model.Collection.StringField3_visible)
+            {
+                <div class="form-group">
+                    <label asp-for="Collection.StringField3_name"></label>
+                    <div>
+                        <input asp-for="StringField3" />
+                    </div>
+                </div>
+            }
+
+        </div>
+
+        <div class="form-group">
+            @if (Model.Collection.TextField1_visible || Model.Collection.TextField2_visible || Model.Collection.TextField3_visible)
+            {<h4> Text boxes </h4>}
+            @if (Model.Collection.TextField1_visible)
+            {
+                <div class="form-group">
+                    <label asp-for="Collection.TextField1_name"></label>
+                    <div>
+                        <input asp-for="TextField1" />
+                    </div>
+                </div>
+            }
+
+            @if (Model.Collection.TextField2_visible)
+            {
+                <div class="form-group">
+                    <label asp-for="Collection.TextField2_name"></label>
+                    <div>
+                        <input asp-for="TextField2" />
+                    </div>
+                </div>
+            }
+
+            @if (Model.Collection.TextField3_visible)
+            {
+                <div class="form-group">
+                    <label asp-for="Collection.TextField3_name"></label>
+                    <div>
+                        <input asp-for="TextField3" />
+                    </div>
+                </div>
+            }
+
+        </div>
+
+        <div class="form-group">
+            @if (Model.Collection.DateField1_visible || Model.Collection.DateField2_visible || Model.Collection.DateField3_visible)
+            {<h4> Date boxes </h4>}
+            @if (Model.Collection.DateField1_visible)
+            {
+                <div class="form-group">
+                    <label asp-for="Collection.DateField1_name"></label>
+                    <div>
+                        <input asp-for="DateField1" />
+                    </div>
+                </div>
+            }
+
+            @if (Model.Collection.DateField2_visible)
+            {
+                <div class="form-group">
+                    <label asp-for="Collection.DateField2_name"></label>
+                    <div>
+                        <input asp-for="DateField2" />
+                    </div>
+                </div>
+            }
+
+            @if (Model.Collection.DateField3_visible)
+            {
+                <div class="form-group">
+                    <label asp-for="Collection.DateField3_name"></label>
+                    <div>
+                        <input asp-for="DateField3" />
+                    </div>
+                </div>
+            }
+
+        </div>
+
+        <div class="form-group">
+            @if (Model.Collection.BooleanField1_visible || Model.Collection.BooleanField1_visible || Model.Collection.BooleanField1_visible)
+            {<h4> Chackboxes </h4>}
+            @if (Model.Collection.BooleanField1_visible)
+            {
+                <div class="form-group">
+                    <label asp-for="Collection.BooleanField1_name"></label>
+                    <div>
+                        <input asp-for="BooleanField1" />
+                    </div>
+                </div>
+            }
+
+            @if (Model.Collection.BooleanField2_visible)
+            {
+                <div class="form-group">
+                    <label asp-for="Collection.BooleanField2_name"></label>
+                    <div>
+                        <input asp-for="BooleanField2" />
+                    </div>
+                </div>
+            }
+
+            @if (Model.Collection.BooleanField3_visible)
+            {
+                <div class="form-group">
+                    <label asp-for="Collection.BooleanField3_name"></label>
+                    <div>
+                        <input asp-for="BooleanField3" />
+                    </div>
+                </div>
+            }
+
+        </div>
+
+        <div>
+            <input class="btn btn-success" type="submit" value="Submit" />
+            <a class="btn btn-warning" asp-controller="Users" asp-action="EditCollection" asp-route-collectionID="@Model.CollectionID"> Back </a>
+        </div>
+
+    </form>
+</div>

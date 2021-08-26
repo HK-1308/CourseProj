@@ -1,0 +1,135 @@
+﻿@model Collection
+<div class="container">
+    <h3>New Collection</h3>
+    <form asp-action="CreateNewCollection" method="post" class="align-self-md-auto">
+
+        <div class="form-group">
+            <input asp-for="userID" hidden="hidden" value="@Model.userID" />
+        </div>
+
+        <div class="form-group" style="">
+            <label asp-for="Name"></label>
+            <div>
+                <input asp-for="Name" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="img"></label>
+            <div>
+                <input asp-for="img" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Description"></label>
+            <div>
+                <input asp-for="Description" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Theme"></label>
+            <div>
+                <input asp-for="Theme" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <h4> Adding numerical boxes</h4>
+            <div class="form-group">
+                <input asp-for="NumericField1_visible" />
+                <input asp-for="NumericField1_name" />
+            </div>
+
+            <div class="form-group">
+                <input asp-for="NumericField2_visible" />
+                <input asp-for="NumericField2_name" />
+            </div>
+
+            <div class="form-group">
+                <input asp-for="NumericField3_visible" />
+                <input asp-for="NumericField3_name" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <h4> Adding string boxes</h4>
+            <div class="form-group">
+                <input asp-for="StringField1_visible" />
+                <input asp-for="StringField1_name" />
+            </div>
+
+            <div class="form-group">
+                <input asp-for="StringField2_visible" />
+                <input asp-for="StringField2_name" />
+            </div>
+
+            <div class="form-group">
+                <input asp-for="StringField3_visible" />
+                <input asp-for="StringField3_name" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <h4> Adding Text boxes</h4>
+            <div class="form-group">
+                <input asp-for="TextField1_visible" />
+                <input asp-for="TextField1_name" />
+            </div>
+
+            <div class="form-group">
+                <input asp-for="TextField2_visible" />
+                <input asp-for="TextField2_name" />
+            </div>
+
+            <div class="form-group">
+                <input asp-for="TextField3_visible" />
+                <input asp-for="TextField3_name" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <h4> Adding Date boxes</h4>
+            <div class="form-group">
+                <input asp-for="DateField1_visible" />
+                <input asp-for="DateField1_name" />
+            </div>
+
+            <div class="form-group">
+                <input asp-for="DateField2_visible" />
+                <input asp-for="DateField2_name" />
+            </div>
+
+            <div class="form-group">
+                <input asp-for="DateField3_visible" />
+                <input asp-for="DateField3_name" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <h4> Adding Checkboxes</h4>
+            <div class="form-group">
+                <input asp-for="BooleanField1_visible" />
+                <input asp-for="BooleanField1_name" />
+            </div>
+
+            <div class="form-group">
+                <input asp-for="BooleanField2_visible" />
+                <input asp-for="BooleanField2_name" />
+            </div>
+
+            <div class="form-group">
+                <input asp-for="BooleanField3_visible" />
+                <input asp-for="BooleanField3_name" />
+            </div>
+        </div>
+
+        <div>
+            <input class="btn btn-success" type="submit" value="Submit" />
+            <a class="btn btn-warning" asp-controller="Users" asp-action="UserPage" asp-route-userID="@Model.userID"> Back </a>
+        </div>
+
+    </form>
+</div>
+

@@ -1,0 +1,157 @@
+﻿@model ItemDetailsViewModel
+
+<a class="btn btn-warning" asp-controller="Users" asp-action="CollectionDetails" asp-route-collectionID="@Model.CollectionID"> Back </a>
+<div>
+    <h2>@Model.Name</h2>
+    <h3>@Model.Tags</h3>
+
+    <div>
+        @if (Model.Collection.NumericField1_visible || Model.Collection.NumericField2_visible || Model.Collection.NumericField3_visible)
+        {<h4> Numerical boxes </h4>}
+        @if (Model.Collection.NumericField1_visible)
+        {
+            <div>
+                <p> @Model.Collection.NumericField1_name:@Model.NumericField1 </p>
+            </div>
+        }
+
+        @if (Model.Collection.NumericField2_visible)
+        {
+            <div>
+                <p> @Model.Collection.NumericField2_name:@Model.NumericField2 </p>
+            </div>
+        }
+        @if (Model.Collection.NumericField3_visible)
+        {
+            <div>
+                <p> @Model.Collection.NumericField3_name:@Model.NumericField3 </p>
+            </div>
+        }
+    </div>
+
+    <div>
+        @if (Model.Collection.StringField1_visible || Model.Collection.StringField2_visible || Model.Collection.StringField3_visible)
+        {<h4> String boxes </h4>}
+        @if (Model.Collection.StringField1_visible)
+        {
+            <div>
+                <p> @Model.Collection.StringField1_name:@Model.StringField1 </p>
+            </div>
+        }
+
+        @if (Model.Collection.StringField2_visible)
+        {
+            <div>
+                <p> @Model.Collection.StringField2_name:@Model.StringField2 </p>
+            </div>
+        }
+        @if (Model.Collection.StringField3_visible)
+        {
+            <div>
+                <p> @Model.Collection.StringField3_name:@Model.StringField3 </p>
+            </div>
+        }
+    </div>
+
+    <div>
+        @if (Model.Collection.TextField1_visible || Model.Collection.TextField2_visible || Model.Collection.TextField3_visible)
+        {<h4> Text boxes </h4>}
+        @if (Model.Collection.TextField1_visible)
+        {
+            <div>
+                <p> @Model.Collection.TextField1_name:@Model.TextField1 </p>
+            </div>
+        }
+
+        @if (Model.Collection.TextField2_visible)
+        {
+            <div>
+                <p> @Model.Collection.TextField2_name:@Model.TextField2 </p>
+            </div>
+        }
+        @if (Model.Collection.TextField3_visible)
+        {
+            <div>
+                <p> @Model.Collection.TextField3_name:@Model.TextField3 </p>
+            </div>
+        }
+    </div>
+
+    <div>
+        @if (Model.Collection.DateField1_visible || Model.Collection.DateField2_visible || Model.Collection.DateField3_visible)
+        {<h4> Date boxes </h4>}
+        @if (Model.Collection.DateField1_visible)
+        {
+            <div>
+                <p> @Model.Collection.DateField1_name:@Model.DateField1 </p>
+            </div>
+        }
+
+        @if (Model.Collection.DateField2_visible)
+        {
+            <div>
+                <p> @Model.Collection.DateField2_name:@Model.DateField2 </p>
+            </div>
+        }
+        @if (Model.Collection.DateField3_visible)
+        {
+            <div>
+                <p> @Model.Collection.DateField3_name:@Model.DateField3 </p>
+            </div>
+        }
+    </div>
+
+    <div>
+        @if (Model.Collection.BooleanField1_visible || Model.Collection.BooleanField1_visible || Model.Collection.BooleanField1_visible)
+        {<h4> Chackboxes </h4>}
+        @if (Model.Collection.BooleanField1_visible)
+        {
+            <div>
+                <p> @Model.Collection.BooleanField1_name:@Model.BooleanField1 </p>
+            </div>
+        }
+
+        @if (Model.Collection.BooleanField2_visible)
+        {
+            <div>
+                <p> @Model.Collection.BooleanField2_name:@Model.BooleanField2 </p>
+            </div>
+        }
+        @if (Model.Collection.BooleanField3_visible)
+        {
+            <div>
+                <p> @Model.Collection.BooleanField3_name:@Model.BooleanField3 </p>
+            </div>
+        }
+    </div>
+
+    <a class="btn btn-warning" asp-controller="Users" asp-action="LikeCreation" asp-route-itemID="@Model.ID"> Like! @{if (Model.GetItemLikes != null) @Model.GetItemLikes.Count()}</a>
+
+
+    <form asp-action="ItemDetails" method="post" class="align-self-md-auto">
+        <div class="form-group" style="" hidden="hidden">
+            <label asp-for="ID"></label>
+            <div>
+                <input asp-for="ID" value="@Model.ID" />
+            </div>
+        </div>
+
+        <input asp-for="CommentText" />
+        <input class="btn btn-success" type="submit" value="+Add Comment" />
+    </form>
+
+    <p></p>
+
+    <h3>Comments</h3>
+
+    <table align="left">
+        @{
+            if (Model.GetItemComments != null)
+                foreach (Comment comment in Model.GetItemComments)
+                {
+                    <tr><th><h5>@comment.UserName</h5><h6>@comment.CommentText</h6></th></tr>
+                }
+        }
+    </table>
+
+</div>

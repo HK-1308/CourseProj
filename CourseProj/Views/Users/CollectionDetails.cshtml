@@ -1,0 +1,41 @@
+﻿@model ItemListInCollectionEditModel
+
+<a class="btn btn-light" asp-controller="Users" asp-action="UserPage" asp-route-userID="@Model.UserID"> Back </a>
+<div>
+
+    <img src="@Model.img" alt="Alternate Text" />
+    <h2>@Model.Name</h2>
+    <h3>@Model.Theme</h3>
+    <h4>@Model.Description</h4>
+
+</div>
+
+
+<div>
+    <a asp-controller="Users" asp-action="SortDetails" asp-route-collectionID="@Model.ID" title="Alphabetical order">A->Z</a>
+</div>
+
+
+<div class="row mt-5 mb-2">
+    <table class="table table-striped table-bordered ">
+        <tbody class="table-responsive ">
+            <tr><th>Name</th><th>Tag</th><th></th></tr>
+            @{
+                foreach (var item in Model.GetItems)
+                {
+                    <tr>
+                        <td>
+                            @item.Name
+                        </td>
+                        <td>
+                            @item.Tags
+                        </td>
+                        <td>
+                            <a class="btn btn-warning" asp-controller="Users" asp-action="ItemDetails" asp-route-itemID="@item.ID"> Details </a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
