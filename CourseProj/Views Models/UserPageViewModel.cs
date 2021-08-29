@@ -10,6 +10,7 @@ namespace CourseProj.Views_Models
     {
         public int UserID { get; set; }
 
+        public string Email { get; set; }
         public int CurrentUserID { get; set; }
 
         public IEnumerable<Collection>  GetCollections { get; set; }

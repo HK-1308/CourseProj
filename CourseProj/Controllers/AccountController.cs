@@ -62,7 +62,7 @@ namespace CourseProj.Controllers
                     .FirstOrDefault(u => u.Email == model.Email && u.Password == model.Password);
                 if (user != null)
                 {
-                    await Authenticate(user); // аутентификация
+                    await Authenticate(user);
                     return RedirectToAction("MainPage", "Users", new {userID = user.ID });
                 }
                 ModelState.AddModelError("", "Wrong login or password");
@@ -71,12 +71,9 @@ namespace CourseProj.Controllers
         }
         private async Task Authenticate(User user)
         {
-            // создаем один claim
             var claims = new List<Claim>
             {new Claim(ClaimsIdentity.DefaultNameClaimType, user.Email),new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role?.Name)};
-            // создаем объект ClaimsIdentity
             ClaimsIdentity id = new(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
-            // установка аутентификационных куки
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
         }
 

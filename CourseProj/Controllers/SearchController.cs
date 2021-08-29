@@ -13,22 +13,22 @@ namespace CourseProj.Controllers
     public class SearchController : Controller
     {
 
-        private DBContent dBContent;
+        private readonly DBContent dBContent;
+        private List<int> CollectionIDs = new List<int>();
+        private List<int> ItemsIDs = new List<int>();
 
         public SearchController(DBContent dBContent)
         {
             this.dBContent = dBContent;
         }
 
-        private List<int> CollectionIDs = new List<int>();
-        private List<int> ItemsIDs = new List<int>();
         public IActionResult Search()
         {
-            var model = new SearchViewModel { items = dBContent.Item };
-            foreach (var item in model.items) item.Collection = dBContent.Collection.FirstOrDefault(u => u.ID == item.CollectionID);
+            SearchViewModel model = new SearchViewModel();
+            model.items = dBContent.Item;
+            foreach (Item item in model.items.ToList()) item.Collection = dBContent.Collection.FirstOrDefault(u => u.ID == item.CollectionID);
             return View(model);
         }
-
 
         private List<Item> SearchEverywhere(string text)
         {
@@ -49,7 +49,8 @@ namespace CourseProj.Controllers
                 foreach (var item in model.items) item.Collection = dBContent.Collection.FirstOrDefault(u => u.ID == item.CollectionID);    
             }
             else model.items = dBContent.Item;
-            return View("Search",model);
+            model.items = model.items.Distinct();
+            return View("Search", model);
         }
 
         [HttpPost]
@@ -62,6 +63,7 @@ namespace CourseProj.Controllers
                 foreach (var item in model.items) item.Collection = dBContent.Collection.FirstOrDefault(u => u.ID == item.CollectionID);
             }
             else model.items = dBContent.Item;
+            model.items = model.items.Distinct();
             return View(model);
         }
     }

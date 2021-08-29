@@ -1,13 +1,6 @@
 ﻿<form asp-action="AdminTable" method="post">
-    
-    <div>
-        <button name="button" value="Block" type="submit">Block</button>
-        <button name="button" value="Unblock" type="submit">Unblock</button>
-        <button name="button" value="Delete" type="submit">Delete</button>
-        <button name="button" value="Admin" type="submit">Make an admin</button>
-    </div>
 
-    <div class="nl">
+    <div class="row mt-5 mb-2">
         <table class="table table-striped table-bordered ">
             <tbody class="table-responsive ">
                 <tr><th><input type="checkbox" class="all" name="selectedUsers" id="-1" value="-1" title="Выбрать все" /></th><th>Email</th><th>Status</th><th>Role</th></tr>
@@ -20,17 +13,19 @@
                                    class="styled">
                         </td>
                         <td><a asp-controller="Users" asp-action="UserPage" asp-route-userID="@user.ID">  @user.Email </a></td>
-                        @{ if (user.Unblocked) {<td> Unblocked </td> } else {<td>Blocked</td>} }
+                        @{ if (!user.Unblocked) {<td> Blocked </td> } else {<td>Unblocked</td>} }
                         @{ if (user.RoleId == 1) {<td> Admin </td> } else {<td>User</td>} }
                     </tr>
                 }
             </tbody>
         </table>
     </div>
-
-    <p>
-        <a class="btn btn-warning" asp-controller="Users" asp-action="MainPage"> Main page</a>
-        <a class="btn btn-warning" asp-controller="Users" asp-action="UserPage"> My page</a>
-    </p>
+     
+    <div>
+        <button name="button" value="Block" type="submit">Block</button>
+        <button name="button" value="Unblock" type="submit">Unblock</button>
+        <button name="button" value="Delete" type="submit">Delete</button>
+        <button name="button" value="Admin" type="submit">Make an admin</button>
+    </div>
 
 </form>

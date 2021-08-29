@@ -1,37 +1,27 @@
 ﻿@model MainPageViewModel
 
-<div>
-    <a class="btn btn-warning" asp-controller="Users" asp-action="AdminTable"> Admin Table </a>
-    @if (User.Identity.IsAuthenticated)
-    {<a class="btn btn-warning" asp-controller="Users" asp-action="UserPage" asp-route-userID="@Model.UserID"> My Page </a>}
+<h2>Biggest collections</h2>
+<div class="row mt-5 mb-2">
 
-    @if (!User.Identity.IsAuthenticated)
-    {<a class="btn btn-warning" asp-controller="Account" asp-action="SignIn"> Sign In </a>}
-    else
-    {<a class="btn btn-warning" asp-controller="Account" asp-action="Logout"> Exit </a>}
+    @foreach (var collection in Model.GetCollections)
+    {
+        <div class="col lg-4">
+            <img class="img-thumbnail" srs="@collection.img" />
+            <p> <a asp-controller="Users" asp-action="CollectionDetails" asp-route-collectionID="@collection.ID"> <h4>@collection.Name</h4></a></p>
+            <p>@collection.Theme</p>
+        </div>
+    }
 </div>
 
 
-<div>
-    <h2>Biggest collections</h2>
-    <div class="row mt-5 mb-2">
-        @foreach (var collection in Model.GetCollections)
-        {
-            <div>
-                <img class="img-thumbnail" srs="@collection.img" />
-                <p> <a asp-controller="Users" asp-action="CollectionDetails" asp-route-collectionID="@collection.ID"> <h4>@collection.Name</h4></a></p>
-                <p>@collection.Theme</p>
-            </div>
-        }
-    </div>
-</div>
-
-<div>
+<div class="row mt-5 mb-2">
     <h2>New items</h2>
     <table class="table table-striped table-bordered ">
         <tr>
             <td>Item's name</td>
-            <td>tags</td>
+            <td>Tags</td>
+            <td>Collection</td>
+            <td>Theme</td>
         </tr>
         @foreach (var item in Model.GetItems)
         {
@@ -39,17 +29,20 @@
                 @*<td><a asp-controller="Users" asp-action="ItemDetails" asp-route-itemID="@item.ID">@item.Collection.user.Email</a></td>*@
                 <td><a asp-controller="Users" asp-action="ItemDetails" asp-route-itemID="@item.ID">@item.Name</a></td>
                 <td>@item.Tags</td>
+                <td> <a asp-controller="Users" asp-action="CollectionDetails" asp-route-collectionID="@item.CollectionID">@item.Collection.Name</a></td>
+                <td> @item.Collection.Theme </td>
             </tr>
         }
     </table>
 </div>
 
 <div>
-    <a asp-controller="Users" asp-action="SortTags"  title="Alphabetical order">A->Z</a>
+    <a asp-controller="Users" asp-action="SortTags" title="Alphabetical order">A->Z</a>
 </div>
 
-<div>
+<div class="row mt-5 mb-2">
     <h2>Tags cloud</h2>
+    <div class="col lg-4">
     @{
         int k = 0;
         if (Model.Tmp == null)
@@ -84,40 +77,39 @@
         else
         {
 
-            foreach(var tag in Model.Tmp)
+            foreach (var tag in Model.Tmp)
             {
                 int i = 0;
                 for (i = 0; i < Model.GetTags.Count; i++)
                     if (tag == Model.GetTags[i]) break;
 
                 if (i == 0)
-                {<a asp-action="TagSearch" asp-controller="Search" asp-route-tag="@tag" style="font-size: 136px; padding: 0 0.4em;">@tag</a>  continue;
+                {<a asp-action="TagSearch" asp-controller="Search" asp-route-tag="@tag" style="font-size: 136px; padding: 0 0.4em;">@tag</a> continue;
                 }
                 if (i == 1)
-                {<a asp-action="TagSearch" asp-controller="Search" asp-route-tag="@tag" style="font-size: 121px; padding: 0 0.4em;">@tag</a>  continue;
+                {<a asp-action="TagSearch" asp-controller="Search" asp-route-tag="@tag" style="font-size: 121px; padding: 0 0.4em;">@tag</a> continue;
                 }
                 if (i == 2)
-                {<a asp-action="TagSearch" asp-controller="Search" asp-route-tag="@tag" style="font-size: 109px; padding: 0 0.4em;">@tag</a>  continue;
+                {<a asp-action="TagSearch" asp-controller="Search" asp-route-tag="@tag" style="font-size: 109px; padding: 0 0.4em;">@tag</a> continue;
                 }
                 if (i == 3)
-                {<a asp-action="TagSearch" asp-controller="Search" asp-route-tag="@tag" style="font-size: 93px; padding: 0 0.4em;">@tag</a>   continue;
+                {<a asp-action="TagSearch" asp-controller="Search" asp-route-tag="@tag" style="font-size: 93px; padding: 0 0.4em;">@tag</a> continue;
                 }
                 if (i == 4)
-                {<a asp-action="TagSearch" asp-controller="Search" asp-route-tag="@tag" style="font-size: 81px; padding: 0 0.4em;">@tag</a>  continue;
+                {<a asp-action="TagSearch" asp-controller="Search" asp-route-tag="@tag" style="font-size: 81px; padding: 0 0.4em;">@tag</a> continue;
                 }
                 if (i == 5)
-                {<a asp-action="TagSearch" asp-controller="Search" asp-route-tag="@tag" style="font-size: 69px; padding: 0 0.4em;">@tag</a>  continue;
+                {<a asp-action="TagSearch" asp-controller="Search" asp-route-tag="@tag" style="font-size: 69px; padding: 0 0.4em;">@tag</a> continue;
                 }
                 if (i == 6)
-                {<a asp-action="TagSearch" asp-controller="Search" asp-route-tag="@tag" style="font-size: 53px; padding: 0 0.4em;">@tag</a>  continue;
+                {<a asp-action="TagSearch" asp-controller="Search" asp-route-tag="@tag" style="font-size: 53px; padding: 0 0.4em;">@tag</a> continue;
                 }
                 if (i == 7)
-                {<a asp-action="TagSearch" asp-controller="Search" asp-route-tag="@tag" style="font-size: 41px; padding: 0 0.4em;">@tag</a>  continue;
+                {<a asp-action="TagSearch" asp-controller="Search" asp-route-tag="@tag" style="font-size: 41px; padding: 0 0.4em;">@tag</a> continue;
                 }
                 <a asp-action="TagSearch" asp-controller="Search" asp-route-tag="@tag" style="font-size: 27px; padding: 0 0.4em;">@tag</a>
-            }
-            Model.Tmp = null;
-        }
-
-        }
+                }
+                Model.Tmp = null;
+        }}
+    </div>
 </div>

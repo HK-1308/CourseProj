@@ -2,18 +2,17 @@
 
 @if (Model.CurrentUserID == Model.UserID || User.IsInRole("admin"))
 {<a class="btn btn-light" asp-controller="Users" asp-action="CreateNewCollection" asp-route-userID="@Model.UserID"> + New Collection </a>}
-<a class="btn btn-light" asp-controller="Users" asp-action="MainPage"> Main page </a>
 
 <div class="row mt-5 mb-2">
     @{
+        <h2>@Model.Email</h2>
         foreach (var collection in Model.GetCollections)
         {
             <div class="col-lg-4">
                 <img class="img-thumbnail" srs="@collection.img" />
-                <h2>@collection.Name</h2>
+                <h3>@collection.Name</h3>
                 <p>@collection.Theme</p>
 
-                @*//Сделать правильные перенаправления на кнопках. Также кнопку для перехода к странице создания коллекций*@
                 <a class="btn btn-warning" asp-controller="Users" asp-action="CollectionDetails" asp-route-collectionID="@collection.ID"> Details </a>
                 @if (Model.CurrentUserID == collection.userID || User.IsInRole("admin")) 
                 {<a class="btn btn-warning" asp-controller="Users" asp-action="EditCollection" asp-route-collectionID="@collection.ID"> Edit </a>}

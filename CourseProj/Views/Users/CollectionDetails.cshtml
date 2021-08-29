@@ -1,6 +1,5 @@
 ﻿@model ItemListInCollectionEditModel
 
-<a class="btn btn-light" asp-controller="Users" asp-action="UserPage" asp-route-userID="@Model.UserID"> Back </a>
 <div>
 
     <img src="@Model.img" alt="Alternate Text" />
@@ -39,3 +38,5 @@
         </tbody>
     </table>
 </div>
+
+<a class="btn btn-light" asp-controller="Users" asp-action="UserPage" asp-route-userID="@Model.UserID"> User Page </a>

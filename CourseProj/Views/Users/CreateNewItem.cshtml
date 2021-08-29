@@ -31,7 +31,7 @@
             @if (Model.Collection.NumericField1_visible)
             {
                 <div class="form-group">
-                    <label asp-for="Collection.NumericField1_name"></label>
+                    <label asp-for="Collection.NumericField1_name">@Model.Collection.NumericField1_name</label>
                     <div>
                         <input asp-for="NumericField1" />
                     </div>
@@ -41,7 +41,7 @@
             @if (Model.Collection.NumericField2_visible)
             {
                 <div class="form-group">
-                    <label asp-for="Collection.NumericField2_name"></label>
+                    <label asp-for="Collection.NumericField2_name">@Model.Collection.NumericField2_name</label>
                     <div>
                         <input asp-for="NumericField2" />
                     </div>
@@ -51,7 +51,7 @@
             @if (Model.Collection.NumericField3_visible)
             {
                 <div class="form-group">
-                    <label asp-for="Collection.NumericField3_name"></label>
+                    <label asp-for="Collection.NumericField3_name">@Model.Collection.NumericField3_name</label>
                     <div>
                         <input asp-for="NumericField3" />
                     </div>
@@ -66,7 +66,7 @@
             @if (Model.Collection.StringField1_visible)
             {
                 <div class="form-group">
-                    <label asp-for="Collection.StringField1_name"></label>
+                    <label asp-for="Collection.StringField1_name">@Model.Collection.StringField1_name</label>
                     <div>
                         <input asp-for="StringField1" />
                     </div>
@@ -76,7 +76,7 @@
             @if (Model.Collection.StringField2_visible)
             {
                 <div class="form-group">
-                    <label asp-for="Collection.StringField2_name"></label>
+                    <label asp-for="Collection.StringField2_name">@Model.Collection.StringField2_name</label>
                     <div>
                         <input asp-for="StringField2" />
                     </div>
@@ -86,7 +86,7 @@
             @if (Model.Collection.StringField3_visible)
             {
                 <div class="form-group">
-                    <label asp-for="Collection.StringField3_name"></label>
+                    <label asp-for="Collection.StringField3_name">@Model.Collection.StringField3_name</label>
                     <div>
                         <input asp-for="StringField3" />
                     </div>
@@ -101,7 +101,7 @@
             @if (Model.Collection.TextField1_visible)
             {
                 <div class="form-group">
-                    <label asp-for="Collection.TextField1_name"></label>
+                    <label asp-for="Collection.TextField1_name">@Model.Collection.TextField1_name</label>
                     <div>
                         <input asp-for="TextField1" />
                     </div>
@@ -111,7 +111,7 @@
             @if (Model.Collection.TextField2_visible)
             {
                 <div class="form-group">
-                    <label asp-for="Collection.TextField2_name"></label>
+                    <label asp-for="Collection.TextField2_name">@Model.Collection.TextField2_name</label>
                     <div>
                         <input asp-for="TextField2" />
                     </div>
@@ -121,7 +121,7 @@
             @if (Model.Collection.TextField3_visible)
             {
                 <div class="form-group">
-                    <label asp-for="Collection.TextField3_name"></label>
+                    <label asp-for="Collection.TextField3_name">@Model.Collection.TextField3_name</label>
                     <div>
                         <input asp-for="TextField3" />
                     </div>
@@ -136,7 +136,7 @@
             @if (Model.Collection.DateField1_visible)
             {
                 <div class="form-group">
-                    <label asp-for="Collection.DateField1_name"></label>
+                    <label asp-for="Collection.DateField1_name">@Model.Collection.DateField1_name</label>
                     <div>
                         <input asp-for="DateField1" />
                     </div>
@@ -146,7 +146,7 @@
             @if (Model.Collection.DateField2_visible)
             {
                 <div class="form-group">
-                    <label asp-for="Collection.DateField2_name"></label>
+                    <label asp-for="Collection.DateField2_name">@Model.Collection.DateField2_name</label>
                     <div>
                         <input asp-for="DateField2" />
                     </div>
@@ -156,7 +156,7 @@
             @if (Model.Collection.DateField3_visible)
             {
                 <div class="form-group">
-                    <label asp-for="Collection.DateField3_name"></label>
+                    <label asp-for="Collection.DateField3_name">@Model.Collection.DateField3_name</label>
                     <div>
                         <input asp-for="DateField3" />
                     </div>
@@ -171,7 +171,7 @@
             @if (Model.Collection.BooleanField1_visible)
             {
                 <div class="form-group">
-                    <label asp-for="Collection.BooleanField1_name"></label>
+                    <label asp-for="Collection.BooleanField1_name">@Model.Collection.BooleanField1_name</label>
                     <div>
                         <input asp-for="BooleanField1" />
                     </div>
@@ -181,7 +181,7 @@
             @if (Model.Collection.BooleanField2_visible)
             {
                 <div class="form-group">
-                    <label asp-for="Collection.BooleanField2_name"></label>
+                    <label asp-for="Collection.BooleanField2_name">@Model.Collection.BooleanField2_name</label>
                     <div>
                         <input asp-for="BooleanField2" />
                     </div>
@@ -191,7 +191,7 @@
             @if (Model.Collection.BooleanField3_visible)
             {
                 <div class="form-group">
-                    <label asp-for="Collection.BooleanField3_name"></label>
+                    <label asp-for="Collection.BooleanField3_name">@Model.Collection.BooleanField3_name</label>
                     <div>
                         <input asp-for="BooleanField3" />
                     </div>
@@ -202,7 +202,7 @@
 
         <div>
             <input class="btn btn-success" type="submit" value="Submit" />
-            <a class="btn btn-warning" asp-controller="Users" asp-action="EditCollection" asp-route-collectionID="@Model.CollectionID"> Back </a>
+            <a class="btn btn-warning" asp-controller="Users" asp-action="EditCollection" asp-route-collectionID="@Model.CollectionID"> To collection edit </a>
         </div>
 
     </form>

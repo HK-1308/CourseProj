@@ -4,6 +4,7 @@
 <div>
     <h2>@Model.Name</h2>
     <h3>@Model.Tags</h3>
+    
 
     <div>
         @if (Model.Collection.NumericField1_visible || Model.Collection.NumericField2_visible || Model.Collection.NumericField3_visible)
@@ -143,7 +144,6 @@
     <p></p>
 
     <h3>Comments</h3>
-
     <table align="left">
         @{
             if (Model.GetItemComments != null)

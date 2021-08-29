@@ -24,19 +24,11 @@ namespace CourseProj.Data
         public DbSet<Comment> Comment { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            Role adminRole = new Role { ID = 1, Name = "admin" };
-            Role userRole = new Role { ID = 2, Name = "user" };
-            Role blockedUserRole = new Role { ID = 3, Name = "blocked" };
-            User adminUser = new User { ID = 69, Email = "admin@mail.ru", Password = "123456", RoleId = adminRole.ID, Unblocked = true };
 
-            modelBuilder.Entity<Role>().HasData(new Role[] { adminRole, userRole });
-            modelBuilder.Entity<User>().HasData(new User[] { adminUser });
-            
-            foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
-            {
+            modelBuilder.Entity<Role>().HasData(new Role[] { new Role { ID = 1, Name = "admin" }, new Role { ID = 2, Name = "user" } });
+            modelBuilder.Entity<User>().HasData(new User[] { new User { ID = 69, Email = "admin@mail.ru", Password = "123456", RoleId = 1, Unblocked = true } });         
+            foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))  
                 relationship.DeleteBehavior = DeleteBehavior.Restrict;
-            }
-
             base.OnModelCreating(modelBuilder);
         }
     }

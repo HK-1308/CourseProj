@@ -1,26 +1,25 @@
 ﻿using CloudinaryDotNet;
+using CourseProj.Data.Models;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CourseProj.Data.Models
+namespace CourseProj.Views_Models
 {
-    public class Collection
+    public class CreateCollectionViewModel
     {
         public int ID { get; set; }
         public string Name { get; set; }
-
-        [DataType(DataType.ImageUrl)]
         public string img { get; set; }
 
         public string Description { get; set; }
         public string Theme { get; set; }
         public int userID { get; set; }
-        public virtual User user  { get; set; }
-        public IEnumerable <Item> Items { get; set; }
-      
+        public virtual User user { get; set; }
+        public IEnumerable<Item> Items { get; set; }
+
         public bool NumericField1_visible { get; set; }
         public string NumericField1_name { get; set; }
 
@@ -66,5 +65,6 @@ namespace CourseProj.Data.Models
         public bool BooleanField3_visible { get; set; }
         public string BooleanField3_name { get; set; }
 
+        public IFormFile File { get; set; }
     }
 }

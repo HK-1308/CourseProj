@@ -2,13 +2,6 @@
 <div>
     <form asp-action="EditCollection" method="post" class="align-self-md-auto">
 
-        <div>
-            <input class="btn btn-success" type="submit" value="Save changes" />
-            <a class="btn btn-light" asp-controller="Users" asp-action="CreateNewItem" asp-route-collectionID="@Model.ID"> + New item </a>
-            <a class="btn btn-light" asp-controller="Users" asp-action="DeleteCollection" asp-route-collectionID="@Model.ID"> Delete </a>
-            <a class="btn btn-light" asp-controller="Users" asp-action="UserPage" asp-route-userID="@Model.UserID"> Back </a>
-        </div>
-
         <div class="form-group" style="" hidden="hidden">
             <label asp-for="ID"></label>
             <div>
@@ -29,23 +22,27 @@
                 <input asp-for="Theme" value="@Model.Theme" />
             </div>
         </div>
+
+        <div class="form-group" style="">
+            <label asp-for="Description"></label>
+            <div>
+                <input asp-for="Description" value="@Model.Description" />
+            </div>
+        </div>
+
     </form>
 </div>
 
-@*<form method="post">
-    <div class="row form-group">
-        <div class="col-md-7">
-            <input asp-for="@Model.Text" class="form-control" id="TextSearchInput" placeholder="Search" />
-        </div>
-        <div class="col-md-5">
-            <button class="btn btn-success" id="ApplyTextSearchButton"> Search </button>
-        </div>
-    </div>
-</form>*@
+<div>
+    <input class="btn btn-success" type="submit" value="Save changes" />
+    <a class="btn btn-light" asp-controller="Users" asp-action="CreateNewItem" asp-route-collectionID="@Model.ID"> + New item </a>
+    <a class="btn btn-light" asp-controller="Users" asp-action="DeleteCollection" asp-route-collectionID="@Model.ID"> Delete </a>
+    <a class="btn btn-light" asp-controller="Users" asp-action="UserPage" asp-route-userID="@Model.UserID"> User Page </a>
+</div>
 
 <div>
     <a asp-controller="Users" asp-action="SortEdit" asp-route-collectionID="@Model.ID" title="Alphabetical order">A->Z</a>
-</div>  
+</div>
 
 @{
     <div class="nl">
@@ -64,7 +61,6 @@
                         <td>
                             <a class="btn btn-warning" asp-controller="Users" asp-action="EditItem" asp-route-itemID="@item.ID"> Edit </a>
                         </td>
-
                     </tr>
                 }
             </tbody>

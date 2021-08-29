@@ -1,4 +1,5 @@
 ﻿@model Collection
+
 <div class="container">
     <h3>New Collection</h3>
     <form asp-action="CreateNewCollection" method="post" class="align-self-md-auto">
@@ -15,9 +16,9 @@
         </div>
 
         <div class="form-group">
-            <label asp-for="img"></label>
+            <label asp-for="img">Image</label>
             <div>
-                <input asp-for="img" />
+                <input asp-for="img" type="file" />
             </div>
         </div>
 
@@ -127,7 +128,7 @@
 
         <div>
             <input class="btn btn-success" type="submit" value="Submit" />
-            <a class="btn btn-warning" asp-controller="Users" asp-action="UserPage" asp-route-userID="@Model.userID"> Back </a>
+            <a class="btn btn-warning" asp-controller="Users" asp-action="UserPage" asp-route-userID="@Model.userID"> User Page </a>
         </div>
 
     </form>
