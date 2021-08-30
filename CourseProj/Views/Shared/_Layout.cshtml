@@ -4,10 +4,11 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
-    <link href="~/css/bootstrap.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="~/css/bootstrap-lumen.css" />
 </head>
+
 <body>
-        <header>
+    <header>
         <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#">Col.Lecton's</a>
@@ -42,12 +43,31 @@
                     </ul>
                 </div>
             </div>
+
+            <a href="#" onclick="changeCSS('/css/bootstrap-lumen.css', 0);" class="btn-outline-secondary">Day</a>/
+            <a href="#" onclick="changeCSS('/css/bootstrap-darkly.css', 0);" class="btn-outline-secondary">Night</a>
         </nav>
     </header>
-    <div class="container mt-5">
+    <div class="container" style="margin-top: 5rem">
         @RenderBody()
     </div>
 </body>
 </html>
 
+<script>
+    function changeCSS(cssFile, cssLinkIndex) {
+        var oldlink = document.getElementsByTagName("link").item(cssLinkIndex);
+        localStorage.setItem('fone', cssFile);
+        var newlink = document.createElement("link");
+        newlink.setAttribute("rel", "stylesheet");
+        newlink.setAttribute("type", "text/css");
+        newlink.setAttribute("href", cssFile);
+        document.getElementsByTagName("head").item(cssLinkIndex).replaceChild(newlink, oldlink);
+    }
+    if (!localStorage.getItem('fone') != '/css/bootstrap-lumen.css' && !localStorage.getItem('fone') != '/css/bootstrap-darkly.css' ) changeCSS('/css/bootstrap-lumen.css', 0)
+    else {
+        var fone = localStorage.getItem('fone');
+        changeCSS(fone, 0);
+    }
+</script>
 
