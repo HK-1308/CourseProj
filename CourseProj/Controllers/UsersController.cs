@@ -21,10 +21,6 @@ namespace CourseProj.Controllers
         private readonly IItems items;
         private readonly ILikes likes;
         private readonly IComments comments;
-        private const string CLOUD_NAME = "duymqmdpp";
-        private const string API_KEY = "689235495947759";
-        private const string API_SECRET = "34eqfnzFmGuixL1JQrBJwXy_zbE";
-
 
         public UsersController(IUsers users, ICollections collections, IItems items, ILikes likes, IComments comments)
         {
@@ -47,7 +43,7 @@ namespace CourseProj.Controllers
         public IActionResult UserPage(int userID)
         {
             var tmp = new UserPageViewModel
-            {UserID = userID,GetCollections = collections.CollectionsByUserID(userID)};
+            {UserID = userID,GetCollections = collections.CollectionsByUserID(userID), Email = users.GetUser(userID).Email};
             if (users.GetUserIdByName(User.Identity.Name) == userID && !users.GetUser(userID).Unblocked) return View("BlockedView");
             if (User.Identity.IsAuthenticated) tmp.CurrentUserID = users.GetUserIdByName(User.Identity.Name);
             else tmp.CurrentUserID = 0;
@@ -155,15 +151,6 @@ namespace CourseProj.Controllers
         {
             if (ModelState.IsValid)
             {
-                //Cloudinary cloudinary = new Cloudinary(new Account(CLOUD_NAME, API_KEY, API_SECRET));
-                //var uploadParams = new ImageUploadParams
-                //{
-                //    File = new FileDescription(collection.img.FileName, new FileStream("path",FileMode.Create,FileAccess.Write)),
-                //    //transformation code here
-                //    Transformation = new Transformation().Width(200).Height(200).Crop("thumb").Gravity("face")
-                //};
-                //var uploadResult = cloudinary.Upload(uploadParams);
-                //Collection tmp = new Collection { Name = collection.Name, img = uploadResult.Url.ToString() };
                 collections.CreateCollection(collection);
                 collections.SaveDB();
                 return RedirectToAction("CreateNewItem", new {collectionID = collection.ID });
