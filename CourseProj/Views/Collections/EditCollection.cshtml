@@ -35,13 +35,13 @@
 
 <div>
     <input class="btn btn-success" type="submit" value="Save changes" />
-    <a class="btn btn-light" asp-controller="Users" asp-action="CreateNewItem" asp-route-collectionID="@Model.ID"> + New item </a>
-    <a class="btn btn-light" asp-controller="Users" asp-action="DeleteCollection" asp-route-collectionID="@Model.ID"> Delete </a>
+    <a class="btn btn-light" asp-controller="Items" asp-action="CreateNewItem" asp-route-collectionID="@Model.ID"> + New item </a>
+    <a class="btn btn-light" asp-controller="Collections" asp-action="DeleteCollection" asp-route-collectionID="@Model.ID"> Delete </a>
     <a class="btn btn-light" asp-controller="Users" asp-action="UserPage" asp-route-userID="@Model.UserID"> User Page </a>
 </div>
 
 <div>
-    <a asp-controller="Users" asp-action="SortEdit" asp-route-collectionID="@Model.ID" title="Alphabetical order">A->Z</a>
+    <a asp-controller="Collections" asp-action="SortEdit" asp-route-collectionID="@Model.ID" title="Alphabetical order">A->Z</a>
 </div>
 
 @{
@@ -59,7 +59,7 @@
                             @item.Tags
                         </td>
                         <td>
-                            <a class="btn btn-warning" asp-controller="Users" asp-action="EditItem" asp-route-itemID="@item.ID"> Edit </a>
+                            <a class="btn btn-warning" asp-controller="Items" asp-action="EditItem" asp-route-itemID="@item.ID"> Edit </a>
                         </td>
                     </tr>
                 }

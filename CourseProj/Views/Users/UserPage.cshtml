@@ -1,7 +1,5 @@
 ﻿@model UserPageViewModel
 
-
-
 <h2>@Model.Email</h2>
 <div class="row mt-5 mb-2">
     @{
@@ -12,12 +10,12 @@
                 <h3>@collection.Name</h3>
                 <p>@collection.Theme</p>
 
-                <a class="btn btn-warning" asp-controller="Users" asp-action="CollectionDetails" asp-route-collectionID="@collection.ID"> Details </a>
+                <a class="btn btn-warning" asp-controller="Collections" asp-action="CollectionDetails" asp-route-collectionID="@collection.ID"> Details </a>
                 @if (Model.CurrentUserID == collection.userID || User.IsInRole("admin"))
-                {<a class="btn btn-warning" asp-controller="Users" asp-action="EditCollection" asp-route-collectionID="@collection.ID"> Edit </a>}
+                {<a class="btn btn-warning" asp-controller="Collections" asp-action="EditCollection" asp-route-collectionID="@collection.ID"> Edit </a>}
             </div>
         }
     }
     @if (Model.CurrentUserID == Model.UserID || User.IsInRole("admin"))
-    {<a class="btn btn-light" asp-controller="Users" asp-action="CreateNewCollection" asp-route-userID="@Model.UserID"> + New Collection </a>}
+    {<a class="btn btn-light" asp-controller="Collections" asp-action="CreateNewCollection" asp-route-userID="@Model.UserID"> + New Collection </a>}
 </div>

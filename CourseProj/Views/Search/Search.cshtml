@@ -19,13 +19,13 @@
             {
             <tr>
                 <td>
-                    <a asp-controller="Users" asp-action="ItemDetails" asp-route-itemID="@item.ID"> @item.Name</a>
+                    <a asp-controller="Items" asp-action="ItemDetails" asp-route-itemID="@item.ID"> @item.Name</a>
                 </td>
                 <td>
                     @item.Tags
                 </td>
                 <td>
-                    <a asp-controller="Users" asp-action="CollectionDetails" asp-route-collectionID="@item.CollectionID">@item.Collection.Name</a>
+                    <a asp-controller="Collections" asp-action="CollectionDetails" asp-route-collectionID="@item.CollectionID">@item.Collection.Name</a>
                 </td>
                 <td>
                     @item.Collection.Theme

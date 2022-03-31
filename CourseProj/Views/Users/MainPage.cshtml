@@ -7,7 +7,7 @@
     {
         <div class="col lg-4">
             <img class="img-thumbnail" srs="@collection.img" />
-            <p> <a asp-controller="Users" asp-action="CollectionDetails" asp-route-collectionID="@collection.ID"> <h4>@collection.Name</h4></a></p>
+            <p> <a asp-controller="Collections" asp-action="CollectionDetails" asp-route-collectionID="@collection.ID"> <h4>@collection.Name</h4></a></p>
             <p>@collection.Theme</p>
         </div>
     }
@@ -27,9 +27,9 @@
         {
             <tr>
                 @*<td><a asp-controller="Users" asp-action="ItemDetails" asp-route-itemID="@item.ID">@item.Collection.user.Email</a></td>*@
-                <td><a asp-controller="Users" asp-action="ItemDetails" asp-route-itemID="@item.ID">@item.Name</a></td>
+                <td><a asp-controller="Items" asp-action="ItemDetails" asp-route-itemID="@item.ID">@item.Name</a></td>
                 <td>@item.Tags</td>
-                <td> <a asp-controller="Users" asp-action="CollectionDetails" asp-route-collectionID="@item.CollectionID">@item.Collection.Name</a></td>
+                <td> <a asp-controller="Collections" asp-action="CollectionDetails" asp-route-collectionID="@item.CollectionID">@item.Collection.Name</a></td>
                 <td> @item.Collection.Theme </td>
             </tr>
         }

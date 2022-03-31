@@ -1,5 +1,5 @@
 {
   "ConnectionStrings": {
-    "DefaultConnection": "Data Source=SQL5105.site4now.net;Initial Catalog=db_a7901a_hk1308;User Id=db_a7901a_hk1308_admin;Password=fkj73hgfkj73hg"
+    "DefaultConnection": "Server=(localdb)\\MSSQLLocalDB;Database=Course;Trusted_Connection=True;MultipleActiveResultSets=true"
   }
 }

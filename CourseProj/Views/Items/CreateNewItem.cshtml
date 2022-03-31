@@ -26,7 +26,7 @@
         </div>
 
         <div class="form-group">
-            @if (Model.Collection.StringField1_visible || Model.Collection.StringField2_visible || Model.Collection.StringField3_visible)
+            @if (Model.Collection.NumericField1_visible || Model.Collection.NumericField2_visible || Model.Collection.NumericField3_visible)
             {<h4> Numerical boxes </h4>}
             @if (Model.Collection.NumericField1_visible)
             {
@@ -202,7 +202,7 @@
 
         <div>
             <input class="btn btn-success" type="submit" value="Submit" />
-            <a class="btn btn-warning" asp-controller="Users" asp-action="EditCollection" asp-route-collectionID="@Model.CollectionID"> To collection edit </a>
+            <a class="btn btn-warning" asp-controller="Collections" asp-action="EditCollection" asp-route-collectionID="@Model.CollectionID"> To collection edit </a>
         </div>
 
     </form>

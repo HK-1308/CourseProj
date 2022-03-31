@@ -22,7 +22,7 @@
                         </li>
                         <li class="nav-item">
                             @if (User.IsInRole("admin"))
-                            {<a class="nav-link" asp-controller="Users" asp-action="AdminTable"> Admin Table </a>}
+                            {<a class="nav-link" asp-controller="Tables" asp-action="AdminTable"> Admin Table </a>}
                         </li>
 
                         <li class="nav-item">
@@ -64,7 +64,7 @@
         newlink.setAttribute("href", cssFile);
         document.getElementsByTagName("head").item(cssLinkIndex).replaceChild(newlink, oldlink);
     }
-    if (!localStorage.getItem('fone') != '/css/bootstrap-lumen.css' && !localStorage.getItem('fone') != '/css/bootstrap-darkly.css' ) changeCSS('/css/bootstrap-lumen.css', 0)
+    if (localStorage.getItem('fone') != '/css/bootstrap-lumen.css' && localStorage.getItem('fone') != '/css/bootstrap-darkly.css' ) changeCSS('/css/bootstrap-lumen.css', 0)
     else {
         var fone = localStorage.getItem('fone');
         changeCSS(fone, 0);

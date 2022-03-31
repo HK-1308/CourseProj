@@ -207,8 +207,8 @@
 
     <div>
         <input class="btn btn-success" type="submit" value="Save changes" />
-        <a class="btn btn-warning" asp-controller="Users" asp-action="DeleteItem" asp-route-itemID="@Model.ID"> Delete </a>
-        <a class="btn btn-warning" asp-controller="Users" asp-action="EditCollection" asp-route-collectionID="@Model.CollectionID"> Edit Collection </a>
+        <a class="btn btn-warning" asp-controller="Items" asp-action="DeleteItem" asp-route-itemID="@Model.ID"> Delete </a>
+        <a class="btn btn-warning" asp-controller="Collections" asp-action="EditCollection" asp-route-collectionID="@Model.CollectionID"> Edit Collection </a>
     </div>
 
 </form>
