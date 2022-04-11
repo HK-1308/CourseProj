@@ -61,7 +61,7 @@ namespace CourseProj.Controllers
         {
             items.UpdateInfo(item);
             collections.SaveDB();
-            return RedirectToAction("EditCollection", "CollectionsController", new { collectionID = item.Collection.ID });
+            return RedirectToAction("EditCollection", "Collections", new { collectionID = item.Collection.ID });
         }
 
         public IActionResult DeleteItem(int itemID)
@@ -69,7 +69,7 @@ namespace CourseProj.Controllers
             int collectionID = items.CollectByID(itemID).CollectionID;
             items.Delete(itemID);
             items.SaveDB();
-            return RedirectToAction("EditCollection", "CollectionsController", new { collectionID = collectionID });
+            return RedirectToAction("EditCollection", "Collections", new { collectionID = collectionID });
         }
 
         public IActionResult ItemDetails(int itemID)

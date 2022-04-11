@@ -38,7 +38,7 @@ namespace CourseProj.Controllers
             if (selectedUsers[0] != -1) foreach (int v in selectedUsers) { if (users.GetUser(v).RoleId != 1) users.GetUser(v).Unblocked = false; }
             else foreach (User user in users.AllUsers) user.Unblocked = false;
             users.SaveDB();
-            if (isMe) return RedirectToAction("Logout", "AccountController");
+            if (isMe) return RedirectToAction("Logout", "Account");
             else return RedirectToAction("AdminTable");
         }
         public IActionResult TableUnblockButton(int[] selectedUsers)
@@ -88,7 +88,7 @@ namespace CourseProj.Controllers
             if (selectedUsers[0] != -1) TablePartionDelete(selectedUsers);
             else TableDeleteAll();
             users.SaveDB();
-            if (isMe) return RedirectToAction("Logout", "AccountController");
+            if (isMe) return RedirectToAction("Logout", "Account");
             else return RedirectToAction("AdminTable");
         }
 

@@ -9,6 +9,9 @@ using CourseProj.Data;
 using CourseProj.Views_Models;
 using CourseProj.Data.Models;
 using System.Linq;
+using System;
+using Microsoft.AspNetCore.Cryptography.KeyDerivation;
+using System.Security.Cryptography;
 
 namespace CourseProj.Controllers
 {
@@ -33,7 +36,11 @@ namespace CourseProj.Controllers
                 User user = dBContent.User.FirstOrDefault(u => u.Email == model.Email);
                 if (user == null)
                 {
-                    user = new User { Email = model.Email, Password = model.Password, Unblocked = true };
+                    user = new User();
+                    user.salt = GenerateSalt();
+                    user.Password = HashUserPassword(model.Password, user.salt);
+                    user.Unblocked = true;
+                    user.Email = model.Email;
                     Role userRole = dBContent.Role.FirstOrDefault(r => r.Name == "user");
                     if (userRole != null) user.Role = userRole;
                     dBContent.User.Add(user);
@@ -46,6 +53,25 @@ namespace CourseProj.Controllers
             }
             return View(model);
         }
+
+        private byte[] GenerateSalt()
+        {
+            RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
+            var salt = new byte[64 / 8];
+            rng.GetBytes(salt);
+            return salt;
+        }
+        private string HashUserPassword(string password, byte[] salt)
+        {
+            string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+                password: password,
+                salt: salt,
+                prf: KeyDerivationPrf.HMACSHA256,
+                iterationCount: 10000,
+                numBytesRequested: 128 / 8));
+                return hashed;
+        }
+
         [HttpGet]
         public IActionResult SignIn()
         {
@@ -59,8 +85,8 @@ namespace CourseProj.Controllers
             {
                 User user = dBContent.User
                     .Include(u => u.Role)
-                    .FirstOrDefault(u => u.Email == model.Email && u.Password == model.Password);
-                if (user != null)
+                    .FirstOrDefault(u => u.Email == model.Email);
+                if (user.Password == HashUserPassword(model.Password,user.salt))
                 {
                     await Authenticate(user);
                     return RedirectToAction("MainPage", "Users", new {userID = user.ID });
