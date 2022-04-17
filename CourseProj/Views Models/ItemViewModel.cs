@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace CourseProj.Views_Models
 {
-    public class SearchViewModel
+    public class ItemViewModel
     {
-        public List<Item> items { get; set; }
+        public Item Item { get; set; }
 
-        public string Text { get; set; }
+        public string Tags { get; set; }
     }
 }

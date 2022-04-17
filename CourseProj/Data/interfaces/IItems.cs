@@ -10,8 +10,7 @@ namespace CourseProj.Data.interfaces
     {
         public IEnumerable<Item> AllItems { get; }
 
-        public List<string> AllTags();
-        IEnumerable<Item> ItemsForMainPage();
+        List<Item> ItemsForMainPage();
         public void CreateItem(Item item) ;
 
         public void Delete(int itemID);
@@ -22,6 +21,6 @@ namespace CourseProj.Data.interfaces
 
         public void UpdateInfo(Item item);
         public void SaveDB();
-        public IEnumerable<Item> CollectByCollectionID(int iD);
+        public List<Item> CollectByCollectionID(int iD);
     }
 }

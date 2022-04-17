@@ -2,7 +2,7 @@
 
 <div class="container">
     <h3>New Collection</h3>
-    <form asp-action="CreateNewCollection" method="post" class="align-self-md-auto">
+    <form asp-controller="Collections" asp-action="CreateNewCollection" method="post" class="align-self-md-auto">
 
         <div class="form-group">
             <input asp-for="userID" hidden="hidden" value="@Model.userID" />

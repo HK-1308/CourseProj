@@ -23,7 +23,8 @@
                             @item.Name
                         </td>
                         <td>
-                            @item.Tags
+                            @foreach (var tagObject in item.tags)
+                            {@string.Concat("#", tagObject.tag)}
                         </td>
                         <td>
                             <a class="btn btn-warning" asp-controller="Items" asp-action="ItemDetails" asp-route-itemID="@item.ID"> Details </a>

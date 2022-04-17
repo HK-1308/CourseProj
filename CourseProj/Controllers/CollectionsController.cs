@@ -46,7 +46,7 @@ namespace CourseProj.Controllers
         {
             var tmp = new ItemListInCollectionEditModel(collections.CollectByID(collectionID));
             tmp.GetItems = items.CollectByCollectionID(collectionID);
-            tmp.GetItems = tmp.GetItems.OrderBy(u => u.Name);
+            tmp.GetItems = tmp.GetItems.OrderBy(u => u.Name).ToList();
             return View("EditCollection", tmp);
         }
 
@@ -77,7 +77,7 @@ namespace CourseProj.Controllers
         {
             var tmp = new ItemListInCollectionEditModel(collections.CollectByID(collectionID));
             tmp.GetItems = items.CollectByCollectionID(collectionID);
-            tmp.GetItems = tmp.GetItems.OrderBy(u => u.Name);
+            tmp.GetItems = tmp.GetItems.OrderBy(u => u.Name).ToList();
             return View("CollectionDetails", tmp);
         }
 

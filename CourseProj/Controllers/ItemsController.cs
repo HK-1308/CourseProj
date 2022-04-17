@@ -20,48 +20,57 @@ namespace CourseProj.Controllers
         private readonly IItems items;
         private readonly ILikes likes;
         private readonly IComments comments;
+        private readonly ITags tags;
 
-        public ItemsController(IUsers users, ICollections collections, IItems items, ILikes likes, IComments comments)
+        public ItemsController(IUsers users, ICollections collections, IItems items, ILikes likes, IComments comments, ITags tags)
         {
             this.items = items;
             this.collections = collections;
             this.users = users;
             this.likes = likes;
             this.comments = comments;
+            this.tags = tags;
         }
 
         public IActionResult CreateNewItem(int collectionID)
         {
-            var CurrentItem = new Item { Collection = collections.CollectByID(collectionID) };
-            CurrentItem.CollectionID = CurrentItem.Collection.ID;
-            return View(CurrentItem);
+            ItemViewModel model = new ItemViewModel();
+            model.Item = new Item { Collection = collections.CollectByID(collectionID) };
+            model.Item.CollectionID = model.Item.Collection.ID;
+            return View(model);
         }
 
         [HttpPost]
-        public IActionResult CreateNewItem(Item item)
+        public IActionResult CreateNewItem(ItemViewModel model)
         {
             if (ModelState.IsValid)
             {
-                items.CreateItem(item);
+                items.CreateItem(model.Item);
                 items.SaveDB();
-                return RedirectToAction("CreateNewItem", new { collectionID = item.CollectionID });
+                var itemTags = model.Tags;
+                //работа с тэгами тут
+                tags.AddTagsForItem(itemTags, model.Item.ID);
+                return RedirectToAction("CreateNewItem", new { collectionID = model.Item.CollectionID });
             }
-            return View(item);
+            return View(model);
         }
 
         public IActionResult EditItem(int itemID)
         {
-            var CurrentItem = items.CollectByID(itemID);
-            CurrentItem.Collection = collections.CollectByID(CurrentItem.CollectionID);
-            return View(CurrentItem);
+            var model = new ItemViewModel();
+            model.Item = items.CollectByID(itemID);
+            model.Item.Collection = collections.CollectByID(model.Item.CollectionID);
+            return View(model);
         }
 
         [HttpPost]
-        public IActionResult EditItem(Item item)
+        public IActionResult EditItem(ItemViewModel model)
         {
-            items.UpdateInfo(item);
+            //TODO обновление итемов
+            items.UpdateInfo(model.Item);
             collections.SaveDB();
-            return RedirectToAction("EditCollection", "Collections", new { collectionID = item.Collection.ID });
+            tags.AddTagsForItem(model.Tags, model.Item.ID);
+            return RedirectToAction("EditCollection", "Collections", new { collectionID = model.Item.CollectionID });
         }
 
         public IActionResult DeleteItem(int itemID)
@@ -84,18 +93,24 @@ namespace CourseProj.Controllers
         [HttpPost]
         public IActionResult ItemDetails(ItemDetailsViewModel model)
         {
-            if (!users.GetUser(users.GetUserIdByName(User.Identity.Name)).Unblocked) return View("BlockedView");
-            var comment = new Comment { ItemID = model.ID, UserID = users.GetUserIdByName(User.Identity.Name), UserName = User.Identity.Name, CommentText = model.CommentText };
-            comments.CreateComment(comment);
-            comments.SaveDB();
-            return RedirectToAction("ItemDetails", new { itemID = model.ID });
+            bool userIsBlocked = !users.GetUser(users.GetUserIdByName(User.Identity.Name)).Unblocked;
+            if (userIsBlocked) return View("BlockedView");
+            if (!string.IsNullOrEmpty(model.CommentText))
+            {
+                var comment = new Comment { ItemID = model.Item.ID, UserID = users.GetUserIdByName(User.Identity.Name), UserName = User.Identity.Name, CommentText = model.CommentText };
+                comments.CreateComment(comment);
+                comments.SaveDB();
+            }
+            return RedirectToAction("ItemDetails", new { itemID = model.Item.ID });
         }
 
         [Authorize(Roles = "admin,user")]
         public IActionResult LikeCreation(int itemID)
         {
-            if (!users.GetUser(users.GetUserIdByName(User.Identity.Name)).Unblocked) return View("BlockedView");
-            if (!likes.IsLiked(users.GetUserIdByName(User.Identity.Name), itemID))
+            bool userIsBlocked = !users.GetUser(users.GetUserIdByName(User.Identity.Name)).Unblocked;
+            bool itemIsLikedByUser = likes.IsLiked(users.GetUserIdByName(User.Identity.Name), itemID);
+            if (userIsBlocked) return View("BlockedView");
+            if (!itemIsLikedByUser)
             {
                 var like = new Like { ItemID = itemID, UserID = users.GetUserIdByName(User.Identity.Name) };
                 likes.CreateLike(like);

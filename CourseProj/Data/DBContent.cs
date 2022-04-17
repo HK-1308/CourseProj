@@ -1,8 +1,10 @@
 ﻿using CourseProj.Data.Models;
+using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 
 namespace CourseProj.Data
@@ -21,12 +23,24 @@ namespace CourseProj.Data
 
         public DbSet<Like> Like { get; set; }
 
-        public DbSet<Comment> Comment { get; set; }
+        public DbSet<Comment> Comment { get; set; } 
+
+        public DbSet<Tag> Tag { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
+            var salt = new byte[64 / 8];
+            rng.GetBytes(salt);
+            string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+                password: "123456",
+                salt: salt,
+                prf: KeyDerivationPrf.HMACSHA256,
+                iterationCount: 10000,
+                numBytesRequested: 128 / 8));
+
 
             modelBuilder.Entity<Role>().HasData(new Role[] { new Role { ID = 1, Name = "admin" }, new Role { ID = 2, Name = "user" } });
-            modelBuilder.Entity<User>().HasData(new User[] { new User { ID = 69, Email = "admin@mail.ru", Password = "123456", RoleId = 1, Unblocked = true } });         
+            modelBuilder.Entity<User>().HasData(new User[] { new User { ID = 69, Email = "admin", Password = hashed, RoleId = 1, Unblocked = true,salt = salt } });         
             foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))  
                 relationship.DeleteBehavior = DeleteBehavior.Restrict;
             base.OnModelCreating(modelBuilder);

@@ -9,12 +9,14 @@ namespace CourseProj.Views_Models
     public class MainPageViewModel
     {
         public int UserID { get; set; } = 0;
-        public IEnumerable<Item> GetItems { get; set; }
+        public List<Item> GetItems { get; set; }
 
         public IEnumerable<Collection> GetCollections { get; set; }
 
-        public List<string> GetTags { get; set; }
+        public List<Tag> GetTagsByWeight { get; set; }
 
-        public List<string> Tmp { get; set; }
+        public List<Tag> GetTagsAlphabetical { get; set; }
+
+        public bool tagCloudIsSortedAlphabetical { get; set; }
     }
 }

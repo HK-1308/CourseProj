@@ -9,11 +9,11 @@ namespace CourseProj.Data.Models
     {
         public int ID { get; set; }
         public string Name { get; set; }
-        public string Tags { get; set; }
         public virtual Collection Collection { get; set; }
         public int CollectionID { get; set; }
         public IEnumerable<Like> likes { get; set; }
         public IEnumerable<Comment> comments { get; set; }
+        public List<Tag> tags { get; set; } = new List<Tag>();
         public int NumericField1 { get; set; }
         public int NumericField2 { get; set; }
         public int NumericField3 { get; set; }

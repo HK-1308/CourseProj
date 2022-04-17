@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace CourseProj.Data.Repository
 {
@@ -18,55 +19,16 @@ namespace CourseProj.Data.Repository
 
         public IEnumerable<Item> AllItems => dBContent.Item;
 
-        public List<string> AllTags()
+        public List<Item> ItemsForMainPage()
         {
-            string tmpstring=null;
-            foreach(Item item in dBContent.Item) tmpstring += item.Tags;
-            if (tmpstring == null) return new List<string>();
-            return SortByWeight(tmpstring.Trim().Split('#').OrderBy(u=>u).ToList());
-        }
-
-        private List<int> GetWeights(IEnumerable<string> tags)
-        {
-            int k = 0; List<int> weights = new List<int>();
-            for (int i = 1; i < tags.ToList().Count - 1; i++)
-            {
-                for (int j = i + 1; j < tags.ToList().Count; j++)
-                    if (tags.ToList()[j] == tags.ToList()[i]) k++; else { i = j - 1; break; }
-                weights.Add(k); k = 0;
-            }
-            return weights;
-        }
-        private List<string> SortByWeight(IEnumerable<string> tags)
-        {
-            List<int> weights = GetWeights(tags); 
-            List<string> result = tags.Distinct().ToList();
-            result.Remove("");
-            for (int i = 0; i < weights.Count - 1; i++)
-                for (int j = i+1; j < weights.Count; j++)
-                {
-                    if(weights[j]>weights[i])
-                    {
-                        int tmp = weights[j];weights[j] = weights[i]; weights[i] = tmp;
-                        string restmp = result[j]; result[j] = result[i];result[i] = restmp;
-                    }
-                } 
+            var result = dBContent.Item.Include(i => i.tags).OrderByDescending(i => i.ID).Take(15).ToList();
             return result;
         }
 
-
-        public IEnumerable<Item> ItemsForMainPage()
+        public List<Item> ItemsForMainPage2()
         {
-            List<Item> items = new List<Item>();
-            var tmp = dBContent.Item.ToArray();
-            for (int i = tmp.Length-1; i >= 0; i--)
-            {
-                items.Add(tmp[i]);
-                if (items.Count > 9) break;
-            }
-            return items;
+             return dBContent.Item.Include(i => i.tags).OrderByDescending(i=>i.ID).Take(15).ToList();
         }
-
         public void CreateItem(Item item) => dBContent.Item.Add(item);
 
         public void SaveDB() => dBContent.SaveChanges();
@@ -83,15 +45,14 @@ namespace CourseProj.Data.Repository
                 dBContent.Item.Remove(i);
         }
 
-        public Item CollectByID(int ID) => dBContent.Item.FirstOrDefault(i => i.ID == ID);
-        public IEnumerable<Item> CollectByCollectionID(int ID) => dBContent.Item.Where(u => u.CollectionID == ID);
+        public Item CollectByID(int ID) => dBContent.Item.Include(i=>i.tags).FirstOrDefault(i => i.ID == ID);
+        public List<Item> CollectByCollectionID(int ID) => dBContent.Item.Include(i=>i.tags).Where(u => u.CollectionID == ID).ToList();
 
         public Item TakeLastElement() => dBContent.Item.Last();
         public void UpdateInfo(Item item)
         {
             var tmp = CollectByID(item.ID);
             tmp.Name = item.Name;
-            tmp.Tags = item.Tags;
             tmp.BooleanField1 = item.BooleanField1;
             tmp.BooleanField2 = item.BooleanField2;
             tmp.BooleanField3 = item.BooleanField3;

@@ -4,14 +4,16 @@ using CourseProj.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CourseProj.Migrations
 {
     [DbContext(typeof(DBContent))]
-    partial class DBContentModelSnapshot : ModelSnapshot
+    [Migration("20220413171128_TV13042022")]
+    partial class TV13042022
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -331,10 +333,10 @@ namespace CourseProj.Migrations
                         {
                             ID = 69,
                             Email = "admin",
-                            Password = "BizBOvJul/d+G6iL5qAd2A==",
+                            Password = "LdkOetqPnCn8mflQJGFwMA==",
                             RoleId = 1,
                             Unblocked = true,
-                            salt = new byte[] { 204, 37, 75, 233, 20, 8, 145, 225 }
+                            salt = new byte[] { 64, 95, 46, 173, 165, 185, 179, 3 }
                         });
                 });
 

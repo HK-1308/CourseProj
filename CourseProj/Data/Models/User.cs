@@ -14,6 +14,8 @@ namespace CourseProj.Data.Models
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
+        public byte[] salt { get; set; }
+
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
         public bool Unblocked { get; set; }

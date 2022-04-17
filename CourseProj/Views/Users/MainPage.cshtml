@@ -27,8 +27,8 @@
         {
             <tr>
                 @*<td><a asp-controller="Users" asp-action="ItemDetails" asp-route-itemID="@item.ID">@item.Collection.user.Email</a></td>*@
-                <td><a asp-controller="Items" asp-action="ItemDetails" asp-route-itemID="@item.ID">@item.Name</a></td>
-                <td>@item.Tags</td>
+                <td> <a asp-controller="Items" asp-action="ItemDetails" asp-route-itemID="@item.ID">@item.Name</a></td>
+                <td> @foreach (var tagObject in item.tags) { @string.Concat("#",tagObject.tag) }</td>
                 <td> <a asp-controller="Collections" asp-action="CollectionDetails" asp-route-collectionID="@item.CollectionID">@item.Collection.Name</a></td>
                 <td> @item.Collection.Theme </td>
             </tr>
@@ -40,73 +40,28 @@
     <a asp-controller="Users" asp-action="SortTags" title="Alphabetical order">A->Z</a>
     <h2>Tags cloud</h2>
     <div class="col lg-4">
-    @{
-        int k = 0;
-        if (Model.Tmp == null)
-            foreach (var tag in Model.GetTags)
+        @{
+            if (!Model.tagCloudIsSortedAlphabetical)
             {
-                if (k == 0)
-                {<a asp-action="TagSearch" asp-controller="Search" asp-route-tag="@tag" style="font-size: 136px; padding: 0 0.4em;">@tag</a> k++; continue;
+                int k = 0;
+                foreach (var tag in Model.GetTagsByWeight)
+                {
+                    string fontSize = $"{150 - (k * 7)}px";
+                    <a asp-action="TagSearch" asp-controller="Search" asp-route-tag="@tag.tag" style="font-size: @fontSize; padding: 0 0.4em;">@tag.tag</a>
+                    k++;
                 }
-                if (k == 1)
-                {<a asp-action="TagSearch" asp-controller="Search" asp-route-tag="@tag" style="font-size: 121px; padding: 0 0.4em;">@tag</a> k++; continue;
-                }
-                if (k == 2)
-                {<a asp-action="TagSearch" asp-controller="Search" asp-route-tag="@tag" style="font-size: 109px; padding: 0 0.4em;">@tag</a> k++; continue;
-                }
-                if (k == 3)
-                {<a asp-action="TagSearch" asp-controller="Search" asp-route-tag="@tag" style="font-size: 93px; padding: 0 0.4em;">@tag</a> k++; continue;
-                }
-                if (k == 4)
-                {<a asp-action="TagSearch" asp-controller="Search" asp-route-tag="@tag" style="font-size: 81px; padding: 0 0.4em;">@tag</a> k++; continue;
-                }
-                if (k == 5)
-                {<a asp-action="TagSearch" asp-controller="Search" asp-route-tag="@tag" style="font-size: 69px; padding: 0 0.4em;">@tag</a> k++; continue;
-                }
-                if (k == 6)
-                {<a asp-action="TagSearch" asp-controller="Search" asp-route-tag="@tag" style="font-size: 53px; padding: 0 0.4em;">@tag</a> k++; continue;
-                }
-                if (k == 7)
-                {<a asp-action="TagSearch" asp-controller="Search" asp-route-tag="@tag" style="font-size: 41px; padding: 0 0.4em;">@tag</a> k++; continue;
-                }
-                <a asp-action="TagSearch" asp-controller="Search" asp-route-tag="@tag" style="font-size: 27px; padding: 0 0.4em;">@tag</a>
             }
-        else
-        {
-
-            foreach (var tag in Model.Tmp)
+            else
             {
-                int i = 0;
-                for (i = 0; i < Model.GetTags.Count; i++)
-                    if (tag == Model.GetTags[i]) break;
+                foreach (var tag in Model.GetTagsAlphabetical)
+                {
+                    int index = Model.GetTagsByWeight.LastIndexOf(tag);
+                    string fontSize = $"{150 - (index * 7)}px";
+                    <a asp-action="TagSearch" asp-controller="Search" asp-route-tag="@tag.tag" style="font-size: @fontSize; padding: 0 0.4em;">@tag.tag</a>
+                }
+            }
+        }
 
-                if (i == 0)
-                {<a asp-action="TagSearch" asp-controller="Search" asp-route-tag="@tag" style="font-size: 136px; padding: 0 0.4em;">@tag</a> continue;
-                }
-                if (i == 1)
-                {<a asp-action="TagSearch" asp-controller="Search" asp-route-tag="@tag" style="font-size: 121px; padding: 0 0.4em;">@tag</a> continue;
-                }
-                if (i == 2)
-                {<a asp-action="TagSearch" asp-controller="Search" asp-route-tag="@tag" style="font-size: 109px; padding: 0 0.4em;">@tag</a> continue;
-                }
-                if (i == 3)
-                {<a asp-action="TagSearch" asp-controller="Search" asp-route-tag="@tag" style="font-size: 93px; padding: 0 0.4em;">@tag</a> continue;
-                }
-                if (i == 4)
-                {<a asp-action="TagSearch" asp-controller="Search" asp-route-tag="@tag" style="font-size: 81px; padding: 0 0.4em;">@tag</a> continue;
-                }
-                if (i == 5)
-                {<a asp-action="TagSearch" asp-controller="Search" asp-route-tag="@tag" style="font-size: 69px; padding: 0 0.4em;">@tag</a> continue;
-                }
-                if (i == 6)
-                {<a asp-action="TagSearch" asp-controller="Search" asp-route-tag="@tag" style="font-size: 53px; padding: 0 0.4em;">@tag</a> continue;
-                }
-                if (i == 7)
-                {<a asp-action="TagSearch" asp-controller="Search" asp-route-tag="@tag" style="font-size: 41px; padding: 0 0.4em;">@tag</a> continue;
-                }
-                <a asp-action="TagSearch" asp-controller="Search" asp-route-tag="@tag" style="font-size: 27px; padding: 0 0.4em;">@tag</a>
-                }
-                Model.Tmp = null;
-        }}
+
     </div>
 </div>

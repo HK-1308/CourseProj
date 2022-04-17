@@ -22,18 +22,18 @@ namespace CourseProj.Data.Repository
             //var res = dBContent.Collection.Join(dBContent.Item, c => c.ID, i => i.CollectionID, (c, i) => new { CollectionID = c.ID, ItemID = i.ID }).GroupBy(c => c.CollectionID).Select(g => new {CollectionID = g.Key,Count = g.Count()}).OrderByDescending(cnt => cnt.Count).Take(10);
             //List<Collection> result = dBContent.Collection.Contains(res.Select(r =>r.CollectionID));
 
-            IEnumerable<Collection> collections = dBContent.Collection;
-            foreach (Collection collection in collections)
-                collection.Items = dBContent.Item.Where(i => i.CollectionID == collection.ID);
+            IEnumerable<Collection> collections = dBContent.Collection.OrderByDescending(c=>c.Items.Count()).Take(10);
+            //foreach (Collection collection in collections)
+            //    collection.Items = dBContent.Item.Where(i => i.CollectionID == collection.ID);
              
-            var tmp = collections.OrderBy(s => s.Items.Count()).ToArray();
-            List<Collection> result = new List<Collection>();
-            for(int i= tmp.Length-1; i>=0;i--)
-            {
-                result.Add(tmp[i]);
-                if (result.Count() > 9) break;
-            }
-            return result;
+            //var tmp = collections.OrderBy(s => s.Items.Count()).ToArray();
+            //List<Collection> result = new List<Collection>();
+            //for(int i= tmp.Length-1; i>=0;i--)
+            //{
+            //    result.Add(tmp[i]);
+            //    if (result.Count() > 9) break;
+            //}
+            return collections;
         }
         public void DeleteCollection(int collectionID)=> dBContent.Collection.Remove(dBContent.Collection.FirstOrDefault(c => c.ID == collectionID));
 

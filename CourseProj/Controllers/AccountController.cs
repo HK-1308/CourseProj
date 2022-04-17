@@ -83,10 +83,8 @@ namespace CourseProj.Controllers
         {
             if (ModelState.IsValid)
             {
-                User user = dBContent.User
-                    .Include(u => u.Role)
-                    .FirstOrDefault(u => u.Email == model.Email);
-                if (user.Password == HashUserPassword(model.Password,user.salt))
+                User user = dBContent.User.Include(u => u.Role).FirstOrDefault(u => u.Email == model.Email);
+                if (user!=null && user.Password == HashUserPassword(model.Password,user.salt))
                 {
                     await Authenticate(user);
                     return RedirectToAction("MainPage", "Users", new {userID = user.ID });

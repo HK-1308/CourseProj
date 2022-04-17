@@ -50,6 +50,7 @@ namespace CourseProj
             services.AddTransient<IItems, ItemRepository>();
             services.AddTransient<ILikes, LikesRepository>();
             services.AddTransient<IComments, CommentRepository>();
+            services.AddTransient<ITags, TagRepository>();
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {

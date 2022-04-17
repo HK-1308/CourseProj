@@ -3,6 +3,7 @@ using CourseProj.Data.Models;
 using CourseProj.Views_Models;
 using Korzh.EasyQuery.Linq;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,8 +26,8 @@ namespace CourseProj.Controllers
         public IActionResult Search()
         {
             SearchViewModel model = new SearchViewModel();
-            model.items = dBContent.Item;
-            foreach (Item item in model.items.ToList()) item.Collection = dBContent.Collection.FirstOrDefault(u => u.ID == item.CollectionID);
+            model.items = dBContent.Item.Include(i=>i.tags).ToList();
+            foreach (Item item in model.items) item.Collection = dBContent.Collection.FirstOrDefault(u => u.ID == item.CollectionID);
             return View(model);
         }
 
@@ -34,9 +35,9 @@ namespace CourseProj.Controllers
         {
             foreach (var col in dBContent.Collection.FullTextSearchQuery(text)) CollectionIDs.Add(col.ID);
             foreach (var com in dBContent.Comment.FullTextSearchQuery(text)) ItemsIDs.Add(com.ItemID);
-            List<Item> result = dBContent.Item.FullTextSearchQuery(text).ToList();
-            foreach (var id in CollectionIDs) result.AddRange(dBContent.Item.Where(u => u.CollectionID == id));
-            foreach (var id in ItemsIDs) result.Add(dBContent.Item.FirstOrDefault(u => u.ID == id));
+            List<Item> result = dBContent.Item.Include(i=>i.tags).FullTextSearchQuery(text).ToList();
+            foreach (var id in CollectionIDs) result.AddRange(dBContent.Item.Include(i => i.tags).Where(u => u.CollectionID == id));
+            foreach (var id in ItemsIDs) result.Add(dBContent.Item.Include(i => i.tags).FirstOrDefault(u => u.ID == id));
             return result;
         }
 
@@ -45,11 +46,11 @@ namespace CourseProj.Controllers
             SearchViewModel model = new SearchViewModel();
             if (!string.IsNullOrEmpty(tag))
             {
-                model.items = SearchEverywhere(tag).AsQueryable(); 
+                model.items = SearchEverywhere(tag).ToList(); 
                 foreach (var item in model.items) item.Collection = dBContent.Collection.FirstOrDefault(u => u.ID == item.CollectionID);    
             }
-            else model.items = dBContent.Item;
-            model.items = model.items.Distinct();
+            else model.items = dBContent.Item.Include(i=>i.tags).ToList();
+            model.items = model.items.Distinct().ToList();
             return View("Search", model);
         }
 
@@ -59,11 +60,11 @@ namespace CourseProj.Controllers
 
             if (!string.IsNullOrEmpty(model.Text))
             {
-                model.items = SearchEverywhere(model.Text).AsQueryable();
+                model.items = SearchEverywhere(model.Text).ToList();
                 foreach (var item in model.items) item.Collection = dBContent.Collection.FirstOrDefault(u => u.ID == item.CollectionID);
             }
-            else model.items = dBContent.Item;
-            model.items = model.items.Distinct();
+            else model.items = dBContent.Item.Include(i => i.tags).ToList();
+            model.items = model.items.Distinct().ToList();
             return View(model);
         }
     }

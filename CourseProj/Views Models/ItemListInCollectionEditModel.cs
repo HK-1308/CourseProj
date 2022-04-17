@@ -29,6 +29,6 @@ namespace CourseProj.Views_Models
         public string img { get; set; }
 
         public string Description { get; set; }
-        public IEnumerable<Item> GetItems { get; set; }
+        public List<Item> GetItems { get; set; }
     }
 }
