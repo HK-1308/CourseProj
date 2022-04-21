@@ -34,6 +34,10 @@ namespace CourseProj.Controllers
         {
             var viewModel = new MainPageViewModel()                                                                        
             {GetItems = items.ItemsForMainPage(), GetCollections = collections.CollectionsForMainPage(), GetTagsByWeight = tags.GetTagsForMainPageByWeight(), GetTagsAlphabetical = tags.GetTagsForMainPageАlphabetical(), UserID = 0, tagCloudIsSortedAlphabetical = false};
+            foreach(var collection in viewModel.GetCollections)
+            {
+                collection.Image = collections.GetImageById(collection.ImageId);
+            }
             if (User.Identity.IsAuthenticated) viewModel.UserID = users.GetUserIdByName(User.Identity.Name);
             return View(viewModel);
         }

@@ -1,11 +1,26 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CourseProj.Migrations
 {
-    public partial class First : Migration
+    public partial class TV_20042022 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Image",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ImageName = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Image", x => x.ID);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Role",
                 columns: table => new
@@ -20,14 +35,28 @@ namespace CourseProj.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Tag",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    tag = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tag", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "User",
                 columns: table => new
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    salt = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Unblocked = table.Column<bool>(type: "bit", nullable: false),
                     RoleId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -48,7 +77,7 @@ namespace CourseProj.Migrations
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    img = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ImageId = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Theme = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     userID = table.Column<int>(type: "int", nullable: false),
@@ -87,6 +116,12 @@ namespace CourseProj.Migrations
                 {
                     table.PrimaryKey("PK_Collection", x => x.ID);
                     table.ForeignKey(
+                        name: "FK_Collection_Image_ImageId",
+                        column: x => x.ImageId,
+                        principalTable: "Image",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
                         name: "FK_Collection_User_userID",
                         column: x => x.userID,
                         principalTable: "User",
@@ -101,7 +136,6 @@ namespace CourseProj.Migrations
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Tags = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CollectionID = table.Column<int>(type: "int", nullable: false),
                     NumericField1 = table.Column<int>(type: "int", nullable: false),
                     NumericField2 = table.Column<int>(type: "int", nullable: false),
@@ -159,6 +193,30 @@ namespace CourseProj.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ItemTag",
+                columns: table => new
+                {
+                    itemsID = table.Column<int>(type: "int", nullable: false),
+                    tagsID = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ItemTag", x => new { x.itemsID, x.tagsID });
+                    table.ForeignKey(
+                        name: "FK_ItemTag_Item_itemsID",
+                        column: x => x.itemsID,
+                        principalTable: "Item",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ItemTag_Tag_tagsID",
+                        column: x => x.tagsID,
+                        principalTable: "Tag",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Like",
                 columns: table => new
                 {
@@ -196,8 +254,14 @@ namespace CourseProj.Migrations
 
             migrationBuilder.InsertData(
                 table: "User",
-                columns: new[] { "ID", "Email", "Password", "RoleId", "Status" },
-                values: new object[] { 69, "admin@mail.ru", "123456", 1, null });
+                columns: new[] { "ID", "Email", "Password", "RoleId", "Unblocked", "salt" },
+                values: new object[] { 69, "admin", "jna+GLxaSmyAWCGRZTmXQg==", 1, true, new byte[] { 197, 152, 153, 221, 33, 48, 0, 86 } });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Collection_ImageId",
+                table: "Collection",
+                column: "ImageId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Collection_userID",
@@ -218,6 +282,11 @@ namespace CourseProj.Migrations
                 name: "IX_Item_CollectionID",
                 table: "Item",
                 column: "CollectionID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ItemTag_tagsID",
+                table: "ItemTag",
+                column: "tagsID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Like_ItemID",
@@ -241,13 +310,22 @@ namespace CourseProj.Migrations
                 name: "Comment");
 
             migrationBuilder.DropTable(
+                name: "ItemTag");
+
+            migrationBuilder.DropTable(
                 name: "Like");
+
+            migrationBuilder.DropTable(
+                name: "Tag");
 
             migrationBuilder.DropTable(
                 name: "Item");
 
             migrationBuilder.DropTable(
                 name: "Collection");
+
+            migrationBuilder.DropTable(
+                name: "Image");
 
             migrationBuilder.DropTable(
                 name: "User");

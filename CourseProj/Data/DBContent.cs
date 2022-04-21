@@ -17,7 +17,10 @@ namespace CourseProj.Data
         public DbSet<User> User { get; set; }
 
         public DbSet<Role> Role { get; set; }
+
         public DbSet<Collection> Collection { get; set; }
+
+        public DbSet<Image> Image { get; set; }
 
         public DbSet<Item> Item { get; set; }
 
@@ -32,7 +35,7 @@ namespace CourseProj.Data
             var salt = new byte[64 / 8];
             rng.GetBytes(salt);
             string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
-                password: "123456",
+                password: "root",
                 salt: salt,
                 prf: KeyDerivationPrf.HMACSHA256,
                 iterationCount: 10000,
@@ -40,7 +43,7 @@ namespace CourseProj.Data
 
 
             modelBuilder.Entity<Role>().HasData(new Role[] { new Role { ID = 1, Name = "admin" }, new Role { ID = 2, Name = "user" } });
-            modelBuilder.Entity<User>().HasData(new User[] { new User { ID = 69, Email = "admin", Password = hashed, RoleId = 1, Unblocked = true,salt = salt } });         
+            modelBuilder.Entity<User>().HasData(new User[] { new User { ID = 1, Email = "root", Password = hashed, RoleId = 1, Unblocked = true,salt = salt } });         
             foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))  
                 relationship.DeleteBehavior = DeleteBehavior.Restrict;
             base.OnModelCreating(modelBuilder);

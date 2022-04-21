@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CourseProj.Migrations
 {
     [DbContext(typeof(DBContent))]
-    [Migration("20220415104807_TV_15042022")]
-    partial class TV_15042022
+    [Migration("20220420194947_TV_20042022")]
+    partial class TV_20042022
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -66,6 +66,9 @@ namespace CourseProj.Migrations
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ImageId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -127,13 +130,13 @@ namespace CourseProj.Migrations
                     b.Property<string>("Theme")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("img")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("userID")
                         .HasColumnType("int");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("ImageId")
+                        .IsUnique();
 
                     b.HasIndex("userID");
 
@@ -166,6 +169,24 @@ namespace CourseProj.Migrations
                     b.HasIndex("UserID");
 
                     b.ToTable("Comment");
+                });
+
+            modelBuilder.Entity("CourseProj.Data.Models.Image", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ImageName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Image");
                 });
 
             modelBuilder.Entity("CourseProj.Data.Models.Item", b =>
@@ -215,9 +236,6 @@ namespace CourseProj.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("StringField3")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Tags")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TextField1")
@@ -333,10 +351,10 @@ namespace CourseProj.Migrations
                         {
                             ID = 69,
                             Email = "admin",
-                            Password = "BizBOvJul/d+G6iL5qAd2A==",
+                            Password = "jna+GLxaSmyAWCGRZTmXQg==",
                             RoleId = 1,
                             Unblocked = true,
-                            salt = new byte[] { 204, 37, 75, 233, 20, 8, 145, 225 }
+                            salt = new byte[] { 197, 152, 153, 221, 33, 48, 0, 86 }
                         });
                 });
 
@@ -357,11 +375,19 @@ namespace CourseProj.Migrations
 
             modelBuilder.Entity("CourseProj.Data.Models.Collection", b =>
                 {
+                    b.HasOne("CourseProj.Data.Models.Image", "Image")
+                        .WithOne("collection")
+                        .HasForeignKey("CourseProj.Data.Models.Collection", "ImageId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("CourseProj.Data.Models.User", "user")
                         .WithMany("Collections")
                         .HasForeignKey("userID")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Image");
 
                     b.Navigation("user");
                 });
@@ -443,6 +469,11 @@ namespace CourseProj.Migrations
             modelBuilder.Entity("CourseProj.Data.Models.Collection", b =>
                 {
                     b.Navigation("Items");
+                });
+
+            modelBuilder.Entity("CourseProj.Data.Models.Image", b =>
+                {
+                    b.Navigation("collection");
                 });
 
             modelBuilder.Entity("CourseProj.Data.Models.Item", b =>

@@ -1,12 +1,14 @@
 ﻿@model ItemListInCollectionEditModel
 
 <div>
-
-    <img src="@Model.img" alt="Alternate Text" />
     <h2>@Model.Name</h2>
+</div>
+ <div>
+     <img src="@("~/image/"+ Model.ImageName)" asp-append-version="true" width="200px" height="200px" />
+ </div>
+<div>
     <h3>@Model.Theme</h3>
     <h4>@Model.Description</h4>
-
 </div>
 
 

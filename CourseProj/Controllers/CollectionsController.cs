@@ -11,35 +11,52 @@ using System.Threading.Tasks;
 
 using CloudinaryDotNet.Actions;
 using System.IO;
+using Microsoft.AspNetCore.Hosting;
+
 namespace CourseProj.Controllers
 {
     public class CollectionsController : Controller
     {
         private readonly ICollections collections;
         private readonly IItems items;
+        private readonly IWebHostEnvironment hostEnvironment;
 
-        public CollectionsController(ICollections collections, IItems items)
+        public CollectionsController(ICollections collections, IItems items, IWebHostEnvironment hostEnvironment)
         {
             this.items = items;
             this.collections = collections;
+            this.hostEnvironment = hostEnvironment;
         }
 
         public IActionResult CreateNewCollection(int userID)
         {
-            var tmp = new Collection { userID = userID };
-            return View(tmp);
+            var model = new CreateCollectionViewModel ();
+            model.Collection = new Collection { userID = userID };
+            return View(model);
         }
 
         [HttpPost]
-        public IActionResult CreateNewCollection(Collection collection)
+        public async Task<IActionResult> CreateNewCollection(CreateCollectionViewModel model)
         {
             if (ModelState.IsValid)
             {
-                collections.CreateCollection(collection);
+                string wwwRootPath = hostEnvironment.WebRootPath;
+                string fileName = Path.GetFileNameWithoutExtension(model.File.FileName);
+                string extension = Path.GetExtension(model.File.FileName);
+                fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+                string path = Path.Combine(wwwRootPath + "/image/", fileName);
+                using (var fileStream = new FileStream(path,FileMode.Create))
+                {
+                    await model.File.CopyToAsync(fileStream);
+                }
+                var image = new Image { ImageName = fileName };
+                model.Collection.Image = image;
+                collections.CreateCollection(model.Collection);
+                collections.AddImage(image);
                 collections.SaveDB();
-                return RedirectToAction("CreateNewItem","Items", new { collectionID = collection.ID });
+                return RedirectToAction("CreateNewItem","Items", new { collectionID = model.Collection.ID });
             }
-            return View(collection);
+            return View(model.Collection);
         }
 
         public IActionResult SortEdit(int collectionID)
@@ -84,6 +101,7 @@ namespace CourseProj.Controllers
         public ViewResult CollectionDetails(int collectionID)
         {
             var tmp = new ItemListInCollectionEditModel(collections.CollectByID(collectionID));
+            tmp.ImageName = collections.GetImageById(collections.CollectByID(collectionID).ImageId).ImageName;
             tmp.GetItems = items.CollectByCollectionID(collectionID);
             return View(tmp);
         }

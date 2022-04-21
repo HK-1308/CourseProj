@@ -2,6 +2,7 @@
 using CourseProj.Data.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,25 +17,8 @@ namespace CourseProj.Data.Repository
             this.dBContent = dBContent;
         }
 
-        public IEnumerable<Collection> CollectionsForMainPage()
-        {
-            //TODO доделать толковый выбор коллекций для MainPage
-            //var res = dBContent.Collection.Join(dBContent.Item, c => c.ID, i => i.CollectionID, (c, i) => new { CollectionID = c.ID, ItemID = i.ID }).GroupBy(c => c.CollectionID).Select(g => new {CollectionID = g.Key,Count = g.Count()}).OrderByDescending(cnt => cnt.Count).Take(10);
-            //List<Collection> result = dBContent.Collection.Contains(res.Select(r =>r.CollectionID));
+        public List<Collection> CollectionsForMainPage() => dBContent.Collection.OrderByDescending(c=>c.Items.Count()).Take(10).ToList();
 
-            IEnumerable<Collection> collections = dBContent.Collection.OrderByDescending(c=>c.Items.Count()).Take(10);
-            //foreach (Collection collection in collections)
-            //    collection.Items = dBContent.Item.Where(i => i.CollectionID == collection.ID);
-             
-            //var tmp = collections.OrderBy(s => s.Items.Count()).ToArray();
-            //List<Collection> result = new List<Collection>();
-            //for(int i= tmp.Length-1; i>=0;i--)
-            //{
-            //    result.Add(tmp[i]);
-            //    if (result.Count() > 9) break;
-            //}
-            return collections;
-        }
         public void DeleteCollection(int collectionID)=> dBContent.Collection.Remove(dBContent.Collection.FirstOrDefault(c => c.ID == collectionID));
 
         public void SaveDB() => dBContent.SaveChanges();
@@ -53,5 +37,11 @@ namespace CourseProj.Data.Repository
             tmp.Theme = collection.Theme;
             dBContent.SaveChanges();
         }
+
+        public IEnumerable<Image> AllImages => dBContent.Image;
+
+        public void AddImage(Image image) => dBContent.Image.Add(image);
+
+        public Image GetImageById(int id) => dBContent.Image.FirstOrDefault(i => i.ID == id);
     }
 }

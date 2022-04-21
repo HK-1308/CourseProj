@@ -1,7 +1,10 @@
 ﻿using CloudinaryDotNet;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -11,10 +14,8 @@ namespace CourseProj.Data.Models
     {
         public int ID { get; set; }
         public string Name { get; set; }
-
-        [DataType(DataType.ImageUrl)]
-        public string img { get; set; }
-
+        public virtual Image Image { get; set; }
+        public int ImageId { get; set; }
         public string Description { get; set; }
         public string Theme { get; set; }
         public int userID { get; set; }
@@ -65,6 +66,22 @@ namespace CourseProj.Data.Models
 
         public bool BooleanField3_visible { get; set; }
         public string BooleanField3_name { get; set; }
+
+    }
+
+    public class Image
+    {
+        public int ID { get; set; }
+
+        public string Title { get; set; }
+
+        [DisplayName("Image Name")]
+        public string ImageName { get; set; }
+
+        [NotMapped]
+        [DisplayName("Upload File")]
+        public IFormFile ImageFile { get; set; }
+        public Collection collection { get; set; }
 
     }
 }

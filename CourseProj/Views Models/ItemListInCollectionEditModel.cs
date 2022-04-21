@@ -16,7 +16,6 @@ namespace CourseProj.Views_Models
             this.ID = collection.ID;
             this.Name = collection.Name;
             this.Theme = collection.Theme;
-            this.img = collection.img;
             this.Description = collection.Description;
             this.UserID = collection.userID;
         }
@@ -26,7 +25,7 @@ namespace CourseProj.Views_Models
         public string Theme { get; set; }
 
         public int UserID { get; set; }
-        public string img { get; set; }
+        public string ImageName { get; set; }
 
         public string Description { get; set; }
         public List<Item> GetItems { get; set; }

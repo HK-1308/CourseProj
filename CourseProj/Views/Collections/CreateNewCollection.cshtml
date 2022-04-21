@@ -1,134 +1,133 @@
-﻿@model Collection
+﻿@model CreateCollectionViewModel
 
 <div class="container">
     <h3>New Collection</h3>
-    <form asp-controller="Collections" asp-action="CreateNewCollection" method="post" class="align-self-md-auto">
+    <form asp-controller="Collections" asp-action="CreateNewCollection" method="post" class="align-self-md-auto" enctype="multipart/form-data" >
 
         <div class="form-group">
-            <input asp-for="userID" hidden="hidden" value="@Model.userID" />
+            <input asp-for="Collection.userID" hidden="hidden" value="@Model.Collection.userID" />
         </div>
 
         <div class="form-group" style="">
-            <label asp-for="Name"></label>
+            <label asp-for="Collection.Name"></label>
             <div>
-                <input asp-for="Name" />
+                <input asp-for="Collection.Name" />
             </div>
         </div>
 
         <div class="form-group">
-            <label asp-for="img">Image</label>
+            <label asp-for="File" class="custom-control-label"></label>
+            <input asp-for="File" accept="image/*">
+            <span asp-validation-for="File" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Collection.Description"></label>
             <div>
-                <input id="fileupload" type="file" name="images" multiple accept="image/gif, image/jpeg, image/png">
+                <input asp-for="Collection.Description" />
             </div>
         </div>
 
         <div class="form-group">
-            <label asp-for="Description"></label>
+            <label asp-for="Collection.Theme"></label>
             <div>
-                <input asp-for="Description" />
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label asp-for="Theme"></label>
-            <div>
-                <input asp-for="Theme" />
+                <input asp-for="Collection.Theme" />
             </div>
         </div>
 
         <div class="form-group">
             <h4> Adding numerical boxes</h4>
             <div class="form-group">
-                <input asp-for="NumericField1_visible" />
-                <input asp-for="NumericField1_name" />
+                <input asp-for="Collection.NumericField1_visible" />
+                <input asp-for="Collection.NumericField1_name" />
             </div>
 
             <div class="form-group">
-                <input asp-for="NumericField2_visible" />
-                <input asp-for="NumericField2_name" />
+                <input asp-for="Collection.NumericField2_visible" />
+                <input asp-for="Collection.NumericField2_name" />
             </div>
 
             <div class="form-group">
-                <input asp-for="NumericField3_visible" />
-                <input asp-for="NumericField3_name" />
+                <input asp-for="Collection.NumericField3_visible" />
+                <input asp-for="Collection.NumericField3_name" />
             </div>
         </div>
 
         <div class="form-group">
             <h4> Adding string boxes</h4>
             <div class="form-group">
-                <input asp-for="StringField1_visible" />
-                <input asp-for="StringField1_name" />
+                <input asp-for="Collection.StringField1_visible" />
+                <input asp-for="Collection.StringField1_name" />
             </div>
 
             <div class="form-group">
-                <input asp-for="StringField2_visible" />
-                <input asp-for="StringField2_name" />
+                <input asp-for="Collection.StringField2_visible" />
+                <input asp-for="Collection.StringField2_name" />
             </div>
 
             <div class="form-group">
-                <input asp-for="StringField3_visible" />
-                <input asp-for="StringField3_name" />
+                <input asp-for="Collection.StringField3_visible" />
+                <input asp-for="Collection.StringField3_name" />
             </div>
         </div>
 
         <div class="form-group">
             <h4> Adding Text boxes</h4>
             <div class="form-group">
-                <input asp-for="TextField1_visible" />
-                <input asp-for="TextField1_name" />
+                <input asp-for="Collection.TextField1_visible" />
+                <input asp-for="Collection.TextField1_name" />
             </div>
 
             <div class="form-group">
-                <input asp-for="TextField2_visible" />
-                <input asp-for="TextField2_name" />
+                <input asp-for="Collection.TextField2_visible" />
+                <input asp-for="Collection.TextField2_name" />
             </div>
 
             <div class="form-group">
-                <input asp-for="TextField3_visible" />
-                <input asp-for="TextField3_name" />
+                <input asp-for="Collection.TextField3_visible" />
+                <input asp-for="Collection.TextField3_name" />
             </div>
         </div>
 
         <div class="form-group">
             <h4> Adding Date boxes</h4>
             <div class="form-group">
-                <input asp-for="DateField1_visible" />
-                <input asp-for="DateField1_name" />
+                <input asp-for="Collection.DateField1_visible" />
+                <input asp-for="Collection.DateField1_name" />
             </div>
 
             <div class="form-group">
-                <input asp-for="DateField2_visible" />
-                <input asp-for="DateField2_name" />
+                <input asp-for="Collection.DateField2_visible" />
+                <input asp-for="Collection.DateField2_name" />
             </div>
 
             <div class="form-group">
-                <input asp-for="DateField3_visible" />
-                <input asp-for="DateField3_name" />
+                <input asp-for="Collection.DateField3_visible" />
+                <input asp-for="Collection.DateField3_name" />
             </div>
         </div>
 
         <div class="form-group">
             <h4> Adding Checkboxes</h4>
             <div class="form-group">
-                <input asp-for="BooleanField1_visible" />
-                <input asp-for="BooleanField1_name" />
+                <input asp-for="Collection.BooleanField1_visible" />
+                <input asp-for="Collection.BooleanField1_name" />
             </div>
 
             <div class="form-group">
-                <input asp-for="BooleanField2_visible" />
-                <input asp-for="BooleanField2_name" />
+                <input asp-for="Collection.BooleanField2_visible" />
+                <input asp-for="Collection.BooleanField2_name" />
             </div>
 
             <div class="form-group">
-                <input asp-for="BooleanField3_visible" />
-                <input asp-for="BooleanField3_name" />
+                <input asp-for="Collection.BooleanField3_visible" />
+                <input asp-for="Collection.BooleanField3_name" />
             </div>
         </div>
 
         <div>
             <input class="btn btn-success" type="submit" value="Submit" />
-            <a class="btn btn-warning" asp-controller="Users" asp-action="UserPage" asp-route-userID="@Model.userID"> User Page </a>
+            <a class="btn btn-warning" asp-controller="Users" asp-action="UserPage" asp-route-userID="@Model.Collection.userID"> User Page </a>
         </div>
 
     </form>

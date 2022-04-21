@@ -11,7 +11,7 @@ namespace CourseProj.Views_Models
         public int UserID { get; set; } = 0;
         public List<Item> GetItems { get; set; }
 
-        public IEnumerable<Collection> GetCollections { get; set; }
+        public List<Collection> GetCollections { get; set; }
 
         public List<Tag> GetTagsByWeight { get; set; }
 
