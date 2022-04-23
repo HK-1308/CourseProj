@@ -52,6 +52,10 @@ namespace CourseProj.Controllers
                 if (users.GetUserIdByName(User.Identity.Name) == userID && !users.GetUser(userID).Unblocked) return View("BlockedView");
             }
             else tmp.CurrentUserID = 0;
+            foreach (var collection in tmp.GetCollections)
+            {
+                collection.Image = collections.GetImageById(collection.ImageId);
+            }
             return View(tmp);
         }
 

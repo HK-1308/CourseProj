@@ -71,6 +71,7 @@ namespace CourseProj.Controllers
         {
             var tmp = new ItemListInCollectionEditModel(collections.CollectByID(collectionID));
             tmp.GetItems = items.CollectByCollectionID(collectionID);
+            tmp.ImageName = collections.GetImageById(collections.CollectByID(collectionID).ImageId).ImageName;
             return View(tmp);
         }
 

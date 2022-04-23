@@ -6,8 +6,8 @@
         foreach (var collection in Model.GetCollections)
         {
             <div class="col-lg-4">
-                @*<img class="img-thumbnail" srs="@collection.img" />*@
-                <h3>@collection.Name</h3>
+                <div><h3>@collection.Name</h3></div>
+                <div><img src="@("~/image/"+ collection.Image.ImageName)" asp-append-version="true" width="200px" height="200px" /></div>
                 <p>@collection.Theme</p>
 
                 <a class="btn btn-warning" asp-controller="Collections" asp-action="CollectionDetails" asp-route-collectionID="@collection.ID"> Details </a>
@@ -15,7 +15,9 @@
                 {<a class="btn btn-warning" asp-controller="Collections" asp-action="EditCollection" asp-route-collectionID="@collection.ID"> Edit </a>}
             </div>
         }
+        <div>
+            @if (Model.CurrentUserID == Model.UserID || User.IsInRole("admin"))
+            {<a class="btn btn-light" asp-controller="Collections" asp-action="CreateNewCollection" asp-route-userID="@Model.UserID"> + New Collection </a>}
+        </div>
     }
-    @if (Model.CurrentUserID == Model.UserID || User.IsInRole("admin"))
-    {<a class="btn btn-light" asp-controller="Collections" asp-action="CreateNewCollection" asp-route-userID="@Model.UserID"> + New Collection </a>}
 </div>
