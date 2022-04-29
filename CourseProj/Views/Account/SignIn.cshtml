@@ -1,5 +1,5 @@
 ﻿@model SignInViewModel
-<div class="signInhbh" style=" margin-right: auto; margin-left: auto; margin-top: 15rem; width: 25rem;">
+<div class="container-md" style=" margin-right: auto; margin-left: auto; margin-top: 15rem; width: 25rem;">
     <h3>Sign In</h3>
     <form asp-action="SignIn" method="post" class="align-self-md-center">
         <div class="form-group" style="" >
@@ -16,9 +16,9 @@
             </div>
             <span asp-validation-for="Password" />
         </div>
-
-        <input class="btn btn-success" type="submit" value="Sign in" />
-        <a class="btn btn-warning" asp-controller="Account" asp-action="Registration"> Registration </a>
-        <a class="btn btn-warning" asp-controller="Users" asp-action="MainPage"> Main page</a>
+        <div>
+            <input class="btn btn-success" type="submit" value="Sign in" />
+            <a class="btn btn-warning" asp-controller="Account" asp-action="Registration"> Registration </a>
+        </div>
     </form>
 </div>

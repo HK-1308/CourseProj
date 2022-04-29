@@ -66,11 +66,15 @@ namespace CourseProj.Controllers
 
         public IActionResult SortTags()
         {
-            var tmp = new MainPageViewModel
+            var model = new MainPageViewModel
             { GetItems = items.ItemsForMainPage(), GetCollections = collections.CollectionsForMainPage(), GetTagsByWeight = tags.GetTagsForMainPageByWeight(), GetTagsAlphabetical = tags.GetTagsForMainPageАlphabetical(), UserID = 0, tagCloudIsSortedAlphabetical = true };
-            if (User.Identity.IsAuthenticated) tmp.UserID = users.GetUserIdByName(User.Identity.Name);
-            else tmp.UserID = 0;
-            return View("MainPage", tmp);
+            if (User.Identity.IsAuthenticated) model.UserID = users.GetUserIdByName(User.Identity.Name);
+            else model.UserID = 0;
+            foreach (var collection in model.GetCollections)
+            {
+                collection.Image = collections.GetImageById(collection.ImageId);
+            }
+            return View("MainPage", model);
         }
     }
 }

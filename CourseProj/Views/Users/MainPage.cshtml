@@ -21,7 +21,7 @@
             <td>Item's name</td>
             <td>Tags</td>
             <td>Collection</td>
-            <td>Theme</td>
+            <td>Likes</td>
         </tr>
         @foreach (var item in Model.GetItems)
         {
@@ -30,7 +30,7 @@
                 <td> <a asp-controller="Items" asp-action="ItemDetails" asp-route-itemID="@item.ID">@item.Name</a></td>
                 <td> @foreach (var tagObject in item.tags) { @string.Concat("#",tagObject.tag) }</td>
                 <td> <a asp-controller="Collections" asp-action="CollectionDetails" asp-route-collectionID="@item.CollectionID">@item.Collection.Name</a></td>
-                <td> @item.Collection.Theme </td>
+                <td>@item.likes.Count()</td>
             </tr>
         }
     </table>

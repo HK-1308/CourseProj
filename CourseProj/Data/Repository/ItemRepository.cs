@@ -21,14 +21,10 @@ namespace CourseProj.Data.Repository
 
         public List<Item> ItemsForMainPage()
         {
-            var result = dBContent.Item.Include(i => i.tags).OrderByDescending(i => i.ID).Take(15).ToList();
+            var result = dBContent.Item.Include(i => i.tags).Include(i=>i.likes).OrderByDescending(i => i.ID).Take(15).ToList();
             return result;
         }
 
-        public List<Item> ItemsForMainPage2()
-        {
-             return dBContent.Item.Include(i => i.tags).OrderByDescending(i=>i.ID).Take(15).ToList();
-        }
         public void CreateItem(Item item) => dBContent.Item.Add(item);
 
         public void SaveDB() => dBContent.SaveChanges();
