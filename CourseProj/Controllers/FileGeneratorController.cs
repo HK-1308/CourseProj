@@ -12,32 +12,141 @@ using System.IO;
 using System.Xml.Serialization;
 using System.Xml;
 using Microsoft.AspNetCore.Hosting;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Spreadsheet;
+using DocumentFormat.OpenXml;
 
 namespace CourseProj.Controllers
 {
-    public class FileGeneratorController:Controller
+    public class FileGeneratorController : Controller
     {
         private readonly IUsers users;
-        private readonly ICollections collections;
-        private readonly IItems items;
-        private readonly ILikes likes;
-        private readonly IComments comments;
-        private readonly ITags tags;
         private readonly IWebHostEnvironment hostEnvironment;
-        public FileGeneratorController(IUsers users, ICollections collections, IItems items, ILikes likes, IComments comments, ITags tags, IWebHostEnvironment hostEnvironment)
+        public FileGeneratorController(IUsers users, IWebHostEnvironment hostEnvironment)
         {
-            this.items = items;
-            this.collections = collections;
             this.users = users;
-            this.likes = likes;
-            this.comments = comments;
-            this.tags = tags;
             this.hostEnvironment = hostEnvironment;
+        }
+        private string GetLetterOfColumn(int numberOfColumn)
+        {
+            switch (numberOfColumn)
+            {
+                case 1: return "A";
+                case 2: return "B";
+                case 3: return "C";
+                case 4: return "D";
+                case 5: return "E";
+                default: return "F";
+            }
+        }
+
+        private void CreateXlxFileUsingTemplate(string path)
+        {
+            string wwwRootPath = hostEnvironment.WebRootPath;
+            string fileTemplateName = "FavoritesTemplate.xlsx";
+            string templatePath = Path.Combine(wwwRootPath + "/files/", fileTemplateName);
+            using (var fileStream = new FileStream(path, FileMode.Create))
+            {
+                using (var fileTemplateStream = new FileStream(templatePath, FileMode.Open))
+                {
+                    fileTemplateStream.CopyTo(fileStream);
+                }
+            }
+        }
+        private string GeneratePathForXLSX()
+        {
+            string wwwRootPath = hostEnvironment.WebRootPath;
+            string fileName = "Favorites";
+            string extension = ".xlsx";
+            fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+            return Path.Combine(wwwRootPath + "/files/", fileName);
+        }
+        public FileResult GenerateXLSX()
+        {
+            string path = GeneratePathForXLSX();
+            CreateXlxFileUsingTemplate(path);
+
+            // Open the copied template workbook. 
+            using (SpreadsheetDocument myWorkbook = SpreadsheetDocument.Open(path,true))
+            {
+                // Access the main Workbook part, which contains all references.
+                WorkbookPart workbookPart = myWorkbook.WorkbookPart;
+
+                // Get the first worksheet. 
+                WorksheetPart worksheetPart = workbookPart.WorksheetParts.ElementAt(0);
+
+                // The SheetData object will contain all the data.
+                SheetData sheetData = worksheetPart.Worksheet.GetFirstChild<SheetData>();
+
+                // Begining Row pointer                       
+                int index = 2;
+
+                // Database results
+                List<Data.Models.Item> items = users.GetItemsForUserFavoritePage(User.Identity.Name);
+
+                // For each item in the database, add a Row to SheetData.
+                foreach (var item in items)
+                {
+                    // Cell related variable
+                    string name = item.Name;
+                    string tags = GetItemTags(item);
+                    string collectionName = item.Collection.Name;
+                    string collectionTheme = item.Collection.Theme;
+                    string likesCount = Convert.ToString(item.likes.Count());
+
+                    // New Row
+                    Row row = new Row();
+                    row.RowIndex = (UInt32)index;
+
+                    for (int columnNumber = 1; columnNumber < 6; columnNumber++)
+                    {
+                        string letter = GetLetterOfColumn(columnNumber);
+                        // New Cell
+                        Cell cell = new Cell();
+                        cell.DataType = CellValues.InlineString;
+
+
+                        // Column A1, 2, 3 ... and so on
+                        cell.CellReference = letter + index;
+
+                        // Create Text object
+                        Text text = new Text();
+                        switch(columnNumber)
+                        {
+                            case 1: text.Text = name; break;
+                            case 2: text.Text = tags; break;
+                            case 3: text.Text = collectionName; break;
+                            case 4: text.Text = collectionTheme; break;
+                            case 5: text.Text = likesCount; break;
+                            default: text.Text = "ERROR"; break;
+                        }
+
+                        // Append Text to InlineString object
+                        InlineString inlineString = new InlineString();
+                        inlineString.AppendChild(text);
+
+                        // Append InlineString to Cell
+                        cell.AppendChild(inlineString);
+
+                        // Append Cell to Row
+                        row.AppendChild(cell);
+                    }
+                    // Append Row to SheetData
+                    sheetData.AppendChild(row);
+
+                    // increase row pointer
+                    index++;
+
+                }
+                // save
+                worksheetPart.Worksheet.Save();
+                return PhysicalFile(path, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "FavoriteItems.xlsx");
+            }
         }
 
         public FileResult GenerateXML()
         {
-            List<Item> items = users.GetItemsForUserFavoritePage(User.Identity.Name);
+            List<Data.Models.Item> items = users.GetItemsForUserFavoritePage(User.Identity.Name);
             string wwwRootPath = hostEnvironment.WebRootPath;
             string fileName = "Favorite";
             string extension = ".xml";
@@ -107,7 +216,7 @@ namespace CourseProj.Controllers
                 return PhysicalFile(path, "text/xml", "FavoriteItems.xml");
             }
         }
-        private string GetItemTags(Item item)
+        private string GetItemTags(Data.Models.Item item)
         {
             List<string> tagsList = new List<string>();
             var tagsObjectList = item.tags;
@@ -117,5 +226,6 @@ namespace CourseProj.Controllers
             }
             return $"#{string.Join("#", tagsList)}";
         }
+
     }        
 }
