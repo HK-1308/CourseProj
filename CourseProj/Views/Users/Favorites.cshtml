@@ -1,0 +1,34 @@
+﻿@model FavoritesViewModel 
+<div>
+    <h2>Favorites</h2>
+    <div>
+        <a asp-controller="FileGenerator" asp-action="GenerateXML"> Generate XML </a>
+        <a asp-controller="" asp-action=""> Generate PDF </a>
+    </div>
+</div>
+<div class="nl">
+    <table class="table table-striped table-bordered ">
+        <tbody class="table-responsive ">
+            <tr><th>Item's name</th><th>Tags</th><th>Collection's name</th><th>Theme</th></tr>
+            @foreach (var item in Model.favoriteItems)
+            {
+                <tr>
+                    <td>
+                        <a asp-controller="Items" asp-action="ItemDetails" asp-route-itemID="@item.ID"> @item.Name</a>
+                    </td>
+                    <td>
+                        @foreach (var tagObject in item.tags)
+                        {@string.Concat("#", tagObject.tag)}
+                    </td>
+                    <td>
+                        <a asp-controller="Collections" asp-action="CollectionDetails" asp-route-collectionID="@item.CollectionID">@item.Collection.Name</a>
+                    </td>
+                    <td>
+                        @item.Collection.Theme
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 namespace CourseProj.Data.Models
 {
+    [Serializable]
     public class Item
     {
         public int ID { get; set; }
@@ -13,6 +14,8 @@ namespace CourseProj.Data.Models
         public int CollectionID { get; set; }
         public IEnumerable<Like> likes { get; set; }
         public IEnumerable<Comment> comments { get; set; }
+
+        public List<User> usersFavorite { get; set; } = new List<User>();
         public List<Tag> tags { get; set; } = new List<Tag>();
         public int NumericField1 { get; set; }
         public int NumericField2 { get; set; }

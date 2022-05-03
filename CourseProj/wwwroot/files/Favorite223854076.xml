@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Items>
+  <Item>
+    <ItemName>balanties</ItemName>
+    <Collection>
+      <CollectionName>Колекция</CollectionName>
+      <CollectionTheme>тема</CollectionTheme>
+    </Collection>
+    <Tags>Wisky#alcohol</Tags>
+    <LikesCount>1</LikesCount>
+    <ff>123</ff>
+  </Item>
+</Items>

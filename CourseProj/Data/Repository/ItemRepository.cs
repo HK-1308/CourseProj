@@ -42,7 +42,7 @@ namespace CourseProj.Data.Repository
         }
 
         public Item CollectByID(int ID) => dBContent.Item.Include(i=>i.tags).FirstOrDefault(i => i.ID == ID);
-        public List<Item> CollectByCollectionID(int ID) => dBContent.Item.Include(i=>i.tags).Where(u => u.CollectionID == ID).ToList();
+        public List<Item> CollectByCollectionID(int collectionId) => dBContent.Item.Include(i=>i.tags).Where(u => u.CollectionID == collectionId).ToList();
 
         public Item TakeLastElement() => dBContent.Item.Last();
         public void UpdateInfo(Item item)

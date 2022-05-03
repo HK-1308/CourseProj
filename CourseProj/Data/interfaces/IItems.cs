@@ -21,6 +21,6 @@ namespace CourseProj.Data.interfaces
 
         public void UpdateInfo(Item item);
         public void SaveDB();
-        public List<Item> CollectByCollectionID(int iD);
+        public List<Item> CollectByCollectionID(int collectionId);
     }
 }

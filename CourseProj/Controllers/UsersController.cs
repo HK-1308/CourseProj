@@ -32,9 +32,9 @@ namespace CourseProj.Controllers
         //Main Page
         public ViewResult MainPage()
         {
-            var viewModel = new MainPageViewModel()                                                                        
-            {GetItems = items.ItemsForMainPage(), GetCollections = collections.CollectionsForMainPage(), GetTagsByWeight = tags.GetTagsForMainPageByWeight(), GetTagsAlphabetical = tags.GetTagsForMainPageАlphabetical(), UserID = 0, tagCloudIsSortedAlphabetical = false};
-            foreach(var collection in viewModel.GetCollections)
+            var viewModel = new MainPageViewModel()
+            { GetItems = items.ItemsForMainPage(), GetCollections = collections.CollectionsForMainPage(), GetTagsByWeight = tags.GetTagsForMainPageByWeight(), GetTagsAlphabetical = tags.GetTagsForMainPageАlphabetical(), UserID = 0, tagCloudIsSortedAlphabetical = false };
+            foreach (var collection in viewModel.GetCollections)
             {
                 collection.Image = collections.GetImageById(collection.ImageId);
             }
@@ -45,7 +45,7 @@ namespace CourseProj.Controllers
         public IActionResult UserPage(int userID)
         {
             var tmp = new UserPageViewModel
-            {UserID = userID,GetCollections = collections.CollectionsByUserID(userID), Email = users.GetUser(userID).Email};
+            { UserID = userID, GetCollections = collections.CollectionsByUserID(userID), Email = users.GetUser(userID).Email };
             if (User.Identity.IsAuthenticated)
             {
                 tmp.CurrentUserID = users.GetUserIdByName(User.Identity.Name);
@@ -61,7 +61,7 @@ namespace CourseProj.Controllers
 
         public IActionResult MyPage()
         {
-            return RedirectToAction("UserPage",new { userID = users.GetUserIdByName(User.Identity.Name)});
+            return RedirectToAction("UserPage", new { userID = users.GetUserIdByName(User.Identity.Name) });
         }
 
         public IActionResult SortTags()
@@ -75,6 +75,14 @@ namespace CourseProj.Controllers
                 collection.Image = collections.GetImageById(collection.ImageId);
             }
             return View("MainPage", model);
+        }
+
+        [Authorize(Roles = "admin,user")]
+        public IActionResult LoadFavoritePage()
+        {
+            var model = new FavoritesViewModel();
+            model.favoriteItems = users.GetItemsForUserFavoritePage(User.Identity.Name);
+            return View("Favorites", model);
         }
     }
 }

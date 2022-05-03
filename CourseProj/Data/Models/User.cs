@@ -23,6 +23,8 @@ namespace CourseProj.Data.Models
         public int? RoleId { get; set; }
 
         public Role Role { get; set; }
+
+        public List<Item> itemsFavorite { get; set; } = new List<Item>();
         public IEnumerable <Collection> Collections { get; set; }
 
         public IEnumerable<Like> likes { get; set; }

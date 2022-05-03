@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace CourseProj.Data.Repository
@@ -26,7 +27,25 @@ namespace CourseProj.Data.Repository
 
         public int GetUserIdByName(string name) => dBContent.User.FirstOrDefault(u => u.Email == name).ID;
 
+        public List<Item> GetItemsForUserFavoritePage(string name)
+        {
+            var id = GetUserIdByName(name);
+            return dBContent.Item.Include(i => i.usersFavorite).Include(i => i.tags).Include(i=>i.likes).Include(i => i.Collection).Where(i => i.usersFavorite.Any(u => u.ID == id)).ToList();
+        }
 
+        public void AddItemToFavorite(Item item, int userId)
+        {
+            var userObject = dBContent.User.Include(u => u.itemsFavorite).FirstOrDefault(u => u.ID == userId);
+            userObject.itemsFavorite.Add(item);
+            dBContent.SaveChanges();
+        }
+
+        public void DeleteItemFromFavorite(Item item, int userId)
+        {
+            var userObject = dBContent.User.Include(u => u.itemsFavorite).FirstOrDefault(u => u.ID == userId);
+            userObject.itemsFavorite.Remove(item);
+            dBContent.SaveChanges();
+        }
         public void DeleteUser(User user) => dBContent.User.Remove(user);
 
         public User GetUser(int id) => dBContent.User.FirstOrDefault(u => u.ID == id);

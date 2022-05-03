@@ -1,5 +1,4 @@
-﻿using CloudinaryDotNet;
-using CourseProj.Data.interfaces;
+﻿using CourseProj.Data.interfaces;
 using CourseProj.Data.Models;
 using CourseProj.Views_Models;
 using Microsoft.AspNetCore.Authorization;
@@ -107,16 +106,24 @@ namespace CourseProj.Controllers
         [Authorize(Roles = "admin,user")]
         public IActionResult LikeCreation(int itemID)
         {
-            bool userIsBlocked = !users.GetUser(users.GetUserIdByName(User.Identity.Name)).Unblocked;
-            bool itemIsLikedByUser = likes.IsLiked(users.GetUserIdByName(User.Identity.Name), itemID);
+            int userId = users.GetUserIdByName(User.Identity.Name);
+            Item item = items.CollectByID(itemID);
+            bool userIsBlocked = !users.GetUser(userId).Unblocked;
+            bool itemIsLikedByUser = likes.IsLiked(userId, itemID);
+
             if (userIsBlocked) return View("BlockedView");
             if (!itemIsLikedByUser)
             {
-                var like = new Like { ItemID = itemID, UserID = users.GetUserIdByName(User.Identity.Name) };
+                var like = new Like { ItemID = itemID, UserID = userId };
                 likes.CreateLike(like);
                 likes.SaveDB();
+                users.AddItemToFavorite(item, userId);
             }
-            else likes.DeleteLike(users.GetUserIdByName(User.Identity.Name), itemID);
+            else
+            {
+                likes.DeleteLike(userId, itemID);
+                users.DeleteItemFromFavorite(item, userId);
+            }
             return RedirectToAction("ItemDetails", new { itemID = itemID });
         }
     }
