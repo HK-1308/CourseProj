@@ -53,17 +53,16 @@ namespace CourseProj.Controllers
                 }
             }
         }
-        private string GeneratePathForXLSX()
+        private string GeneratePathForFile(string fileExtension)
         {
             string wwwRootPath = hostEnvironment.WebRootPath;
             string fileName = "Favorites";
-            string extension = ".xlsx";
-            fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+            fileName = fileName + DateTime.Now.ToString("yymmssfff") + fileExtension;
             return Path.Combine(wwwRootPath + "/files/", fileName);
         }
         public FileResult GenerateXLSX()
         {
-            string path = GeneratePathForXLSX();
+            string path = GeneratePathForFile(".xlsx");
             CreateXlxFileUsingTemplate(path);
 
             // Open the copied template workbook. 
@@ -136,7 +135,6 @@ namespace CourseProj.Controllers
 
                     // increase row pointer
                     index++;
-
                 }
                 // save
                 worksheetPart.Worksheet.Save();
@@ -147,20 +145,18 @@ namespace CourseProj.Controllers
         public FileResult GenerateXML()
         {
             List<Data.Models.Item> items = users.GetItemsForUserFavoritePage(User.Identity.Name);
-            string wwwRootPath = hostEnvironment.WebRootPath;
-            string fileName = "Favorite";
-            string extension = ".xml";
-            fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
-            string path = Path.Combine(wwwRootPath + "/files/", fileName);
+            string path = GeneratePathForFile(".xml");
+
             using (var stream = new FileStream(path, FileMode.Create))
             {
                 XmlTextWriter xmlWriter = new XmlTextWriter(stream, System.Text.Encoding.Default);
                 xmlWriter.Formatting = Formatting.Indented;
                 xmlWriter.WriteStartDocument();
                 xmlWriter.WriteStartElement("Items");
-                xmlWriter.WriteStartElement("Item");
+
                 foreach (var item in items)
                 {
+                    xmlWriter.WriteStartElement("Item");
                     string tags = GetItemTags(item);
 
                     xmlWriter.WriteElementString("ItemName", item.Name);

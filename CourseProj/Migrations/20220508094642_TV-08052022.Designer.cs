@@ -4,14 +4,16 @@ using CourseProj.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CourseProj.Migrations
 {
     [DbContext(typeof(DBContent))]
-    partial class DBContentModelSnapshot : ModelSnapshot
+    [Migration("20220508094642_TV-08052022")]
+    partial class TV08052022
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -179,6 +181,9 @@ namespace CourseProj.Migrations
                     b.Property<string>("ImageName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("ID");
 
                     b.ToTable("Image");
@@ -211,9 +216,6 @@ namespace CourseProj.Migrations
 
                     b.Property<string>("DateField3")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ImageId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -248,9 +250,6 @@ namespace CourseProj.Migrations
                     b.HasKey("ID");
 
                     b.HasIndex("CollectionID");
-
-                    b.HasIndex("ImageId")
-                        .IsUnique();
 
                     b.ToTable("Item");
                 });
@@ -352,10 +351,10 @@ namespace CourseProj.Migrations
                         {
                             ID = 1,
                             Email = "root",
-                            Password = "TGiN2zjZu1wiwwz3cYplHg==",
+                            Password = "TQbYA3wLfp0zvLjey/GDIw==",
                             RoleId = 1,
                             Unblocked = true,
-                            salt = new byte[] { 139, 36, 234, 81, 20, 140, 245, 177 }
+                            salt = new byte[] { 216, 7, 11, 139, 208, 101, 3, 14 }
                         });
                 });
 
@@ -420,15 +419,7 @@ namespace CourseProj.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("CourseProj.Data.Models.Image", "Image")
-                        .WithOne("item")
-                        .HasForeignKey("CourseProj.Data.Models.Item", "ImageId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.Navigation("Collection");
-
-                    b.Navigation("Image");
                 });
 
             modelBuilder.Entity("CourseProj.Data.Models.Like", b =>
@@ -483,8 +474,6 @@ namespace CourseProj.Migrations
             modelBuilder.Entity("CourseProj.Data.Models.Image", b =>
                 {
                     b.Navigation("collection");
-
-                    b.Navigation("item");
                 });
 
             modelBuilder.Entity("CourseProj.Data.Models.Item", b =>

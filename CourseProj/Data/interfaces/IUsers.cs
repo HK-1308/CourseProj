@@ -22,9 +22,6 @@ namespace CourseProj.Data.interfaces
 
         public List<Item> GetItemsForUserFavoritePage(string name);
 
-        public void AddItemToFavorite(Item item, int userId);
-
-        public void DeleteItemFromFavorite(Item item, int userId);
         void DeleteUser(User user);
 
         public void SaveDB();

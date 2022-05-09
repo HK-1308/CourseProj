@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 
 using CloudinaryDotNet.Actions;
 using System.IO;
+using Microsoft.AspNetCore.Hosting;
+
 namespace CourseProj.Controllers
 {
     public class ItemsController : Controller
@@ -20,8 +22,9 @@ namespace CourseProj.Controllers
         private readonly ILikes likes;
         private readonly IComments comments;
         private readonly ITags tags;
+        private readonly IWebHostEnvironment hostEnvironment;
 
-        public ItemsController(IUsers users, ICollections collections, IItems items, ILikes likes, IComments comments, ITags tags)
+        public ItemsController(IUsers users, ICollections collections, IItems items, ILikes likes, IComments comments, ITags tags, IWebHostEnvironment hostEnvironment)
         {
             this.items = items;
             this.collections = collections;
@@ -29,6 +32,7 @@ namespace CourseProj.Controllers
             this.likes = likes;
             this.comments = comments;
             this.tags = tags;
+            this.hostEnvironment = hostEnvironment;
         }
 
         public IActionResult CreateNewItem(int collectionID)
@@ -40,11 +44,23 @@ namespace CourseProj.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateNewItem(ItemViewModel model)
+        public async Task<IActionResult> CreateNewItem(ItemViewModel model)
         {
             if (ModelState.IsValid)
             {
+                string wwwRootPath = hostEnvironment.WebRootPath;
+                string fileName = Path.GetFileNameWithoutExtension(model.File.FileName);
+                string extension = Path.GetExtension(model.File.FileName);
+                fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+                string path = Path.Combine(wwwRootPath + "/image/", fileName);
+                using (var fileStream = new FileStream(path, FileMode.Create))
+                {
+                    await model.File.CopyToAsync(fileStream);
+                }
+                var image = new Image { ImageName = fileName };
+                model.Item.Image = image;
                 items.CreateItem(model.Item);
+                collections.AddImage(image);     
                 items.SaveDB();
                 var itemTags = model.Tags;
                 //работа с тэгами тут
@@ -117,12 +133,10 @@ namespace CourseProj.Controllers
                 var like = new Like { ItemID = itemID, UserID = userId };
                 likes.CreateLike(like);
                 likes.SaveDB();
-                users.AddItemToFavorite(item, userId);
             }
             else
             {
                 likes.DeleteLike(userId, itemID);
-                users.DeleteItemFromFavorite(item, userId);
             }
             return RedirectToAction("ItemDetails", new { itemID = itemID });
         }

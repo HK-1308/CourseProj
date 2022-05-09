@@ -1,4 +1,5 @@
 ﻿using CourseProj.Data.Models;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +12,7 @@ namespace CourseProj.Views_Models
         public Item Item { get; set; }
 
         public string Tags { get; set; }
+
+        public IFormFile File { get; set; }
     }
 }

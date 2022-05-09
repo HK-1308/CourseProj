@@ -6,7 +6,7 @@
     @foreach (var collection in Model.GetCollections)
     {
         <div class="col lg-4">
-            <img src="@("~/image/"+collection.Image.ImageName)" asp-append-version="true" width="200px" height="200px"/>
+            <img src="@("~/image/"+collection.Image.ImageName)" asp-append-version="true" width="200px" height="200px" />
             <p> <a asp-controller="Collections" asp-action="CollectionDetails" asp-route-collectionID="@collection.ID"> <h4>@collection.Name</h4></a></p>
             <p>@collection.Theme</p>
         </div>
@@ -28,7 +28,10 @@
             <tr>
                 @*<td><a asp-controller="Users" asp-action="ItemDetails" asp-route-itemID="@item.ID">@item.Collection.user.Email</a></td>*@
                 <td> <a asp-controller="Items" asp-action="ItemDetails" asp-route-itemID="@item.ID">@item.Name</a></td>
-                <td> @foreach (var tagObject in item.tags) { @string.Concat("#",tagObject.tag) }</td>
+                <td>
+                    @foreach (var tagObject in item.tags)
+                    {@string.Concat("#", tagObject.tag)}
+                </td>
                 <td> <a asp-controller="Collections" asp-action="CollectionDetails" asp-route-collectionID="@item.CollectionID">@item.Collection.Name</a></td>
                 <td>@item.likes.Count()</td>
             </tr>
@@ -38,8 +41,12 @@
 
 <div class="row mt-5 mb-2">
     <a asp-controller="Users" asp-action="SortTags" title="Alphabetical order">A->Z</a>
+    <button style="color: crimson;"
+            onclick="sort()">
+        JS sort
+    </button>
     <h2>Tags cloud</h2>
-    <div class="col lg-4">
+    <div class="col lg-4" id="TagList">
         @{
             if (!Model.tagCloudIsSortedAlphabetical)
             {
@@ -65,3 +72,41 @@
 
     </div>
 </div>
+
+<script>
+    function sort() {
+
+        // Declaring Variables
+        var geek_list, i, run, li, stop;
+
+        // Taking content of list as input
+        geek_list = document.getElementById("TagList");
+
+        run = true;
+
+        while (run) {
+            run = false;
+            li = geek_list.getElementsByTagName("a");
+
+            // Loop traversing through all the list items
+            for (i = 0; i < (li.length - 1); i++) {
+                stop = false;
+                if (li[i].innerHTML.toLowerCase() >
+                    li[i + 1].innerHTML.toLowerCase()) {
+                    stop = true;
+                    break;
+                }
+            }
+
+            /* If the current item is smaller than
+               the next item then adding it after
+               it using insertBefore() method */
+            if (stop) {
+                li[i].parentNode.insertBefore(
+                    li[i + 1], li[i]);
+
+                run = true;
+            }
+        }
+    }
+</script>

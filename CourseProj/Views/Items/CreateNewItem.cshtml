@@ -2,7 +2,7 @@
 
 <div class="container">
     <h3>New Item</h3>
-    <form asp-action="CreateNewItem" method="post" class="align-self-md-auto">
+    <form asp-action="CreateNewItem" method="post" class="align-self-md-auto" enctype="multipart/form-data">
 
         <div class="form-group" style="" hidden="hidden">
             <label asp-for="Item.CollectionID"></label>
@@ -16,6 +16,12 @@
             <div>
                 <input asp-for="Item.Name" />
             </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="File" class="custom-control-label"></label>
+            <input asp-for="File" accept="image/*">
+            <span asp-validation-for="File" class="text-danger"></span>
         </div>
 
         <div class="form-group">

@@ -68,20 +68,4 @@ namespace CourseProj.Data.Models
         public string BooleanField3_name { get; set; }
 
     }
-
-    public class Image
-    {
-        public int ID { get; set; }
-
-        public string Title { get; set; }
-
-        [DisplayName("Image Name")]
-        public string ImageName { get; set; }
-
-        [NotMapped]
-        [DisplayName("Upload File")]
-        public IFormFile ImageFile { get; set; }
-        public Collection collection { get; set; }
-
-    }
 }
