@@ -81,7 +81,6 @@ namespace CourseProj.Controllers
         [HttpPost]
         public IActionResult EditItem(ItemViewModel model)
         {
-            //TODO обновление итемов
             items.UpdateInfo(model.Item);
             collections.SaveDB();
             tags.AddTagsForItem(model.Tags, model.Item.ID);

@@ -7,7 +7,7 @@
         {
             <div class="col-lg-4">
                 <div><h3>@collection.Name</h3></div>
-                <div><img src="@("~/image/"+ collection.Image.ImageName)" asp-append-version="true" width="200px" height="200px" /></div>
+                <div><img src="@("~/image/"+ collection.Image.ImageName)" asp-append-version="true" width="250px" height="250px" /></div>
                 <p>@collection.Theme</p>
 
                 <a class="btn btn-warning" asp-controller="Collections" asp-action="CollectionDetails" asp-route-collectionID="@collection.ID"> Details </a>

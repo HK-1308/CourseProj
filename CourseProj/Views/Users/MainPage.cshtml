@@ -6,7 +6,7 @@
     @foreach (var collection in Model.GetCollections)
     {
         <div class="col lg-4">
-            <img src="@("~/image/"+collection.Image.ImageName)" asp-append-version="true" width="200px" height="200px" />
+            <img src="@("~/image/"+collection.Image.ImageName)" asp-append-version="true" width="250px" height="250px" />
             <p> <a asp-controller="Collections" asp-action="CollectionDetails" asp-route-collectionID="@collection.ID"> <h4>@collection.Name</h4></a></p>
             <p>@collection.Theme</p>
         </div>
@@ -41,10 +41,6 @@
 
 <div class="row mt-5 mb-2">
     <a asp-controller="Users" asp-action="SortTags" title="Alphabetical order">A->Z</a>
-    <button style="color: crimson;"
-            onclick="sort()">
-        JS sort
-    </button>
     <h2>Tags cloud</h2>
     <div class="container text-center" id="TagList">
         @{
@@ -53,7 +49,7 @@
                 int k = 0;
                 foreach (var tag in Model.GetTagsByWeight)
                 {
-                    string fontSize = $"{150 - (k * 7)}px";
+                    string fontSize = $"{180 - (k * 9)}px";
                     <a asp-action="TagSearch" asp-controller="Search" asp-route-tag="@tag.tag" style="font-size: @fontSize; padding: 0 0.4em;">@tag.tag</a>
                     k++;
                 }
@@ -63,7 +59,7 @@
                 foreach (var tag in Model.GetTagsAlphabetical)
                 {
                     int index = Model.GetTagsByWeight.LastIndexOf(tag);
-                    string fontSize = $"{150 - (index * 7)}px";
+                    string fontSize = $"{180 - (index * 9)}px";
                     <a asp-action="TagSearch" asp-controller="Search" asp-route-tag="@tag.tag" style="font-size: @fontSize; padding: 0 0.4em;">@tag.tag</a>
                 }
             }

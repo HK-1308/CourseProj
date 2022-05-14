@@ -49,7 +49,7 @@ namespace CourseProj.Controllers
             if (User.Identity.IsAuthenticated)
             {
                 tmp.CurrentUserID = users.GetUserIdByName(User.Identity.Name);
-                if (users.GetUserIdByName(User.Identity.Name) == userID && !users.GetUser(userID).Unblocked) return View("BlockedView");
+                if (tmp.CurrentUserID == userID && !users.GetUser(userID).Unblocked) return View("BlockedView");
             }
             else tmp.CurrentUserID = 0;
             foreach (var collection in tmp.GetCollections)
